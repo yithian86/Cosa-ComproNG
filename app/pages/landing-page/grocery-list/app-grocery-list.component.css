@@ -1,0 +1,29 @@
+.AddButton {
+    margin-top: 12;
+    background-color: lightskyblue;
+    border-radius: 5;
+    color: white;
+    font-family: FontAwesome;
+    font-size: 24;
+    vertical-align: middle;
+    width: 95%;
+}
+
+.AddButton:active {
+    background-color: lightblue;
+    color:white;
+}
+
+.Label {
+    margin: 12;
+}
+
+.Label__Name {
+    width: 80%;
+}
+
+.Label__Quantity {
+    width: 20%;
+    text-align: right;
+    font-weight: bold;
+}

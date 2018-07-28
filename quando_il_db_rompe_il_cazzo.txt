@@ -1,0 +1,1 @@
+Se il db non viene aggiornato sul device, collegati da root (oppure da Android Studio vai su View --> Tool Windows --> Device File Explorer), naviga in "data/data/org.nativescript.CosaComproNG" e sostituisci (upload) il file .db dentro la cartella "databases".

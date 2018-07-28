@@ -1,0 +1,33 @@
+<StackLayout height="100%" visibility="{{ showAddItemLayout ? 'collapsed' : 'visible' }}">
+
+    <Label row="0" [text]="title" style="text-align: center" class="h2 p-l-15 p-r-15 p-t-15"></Label>
+
+    <ListPicker row="1" #picker [items]="getMyListsForPicker()" [selectedIndex]="myListsSelectedIndex" (selectedIndexChange)="onSelectedIndexChange(picker)" class="p-15 picker"></ListPicker>
+
+    <ListView row="2" [items]="groceryList" class="list-group" (itemTap)="onItemTap($event)" visibility="{{ groceryList && groceryList.length > 0 ? 'visible' : 'collapsed' }}">
+        <ng-template let-grocery="item" let-i="index" let-third="third" let-header="header" let-footer="footer">
+            <FlexboxLayout [class.third]="third" [class.header]="header" [class.footer]="footer" class="list-group-item">
+                <Label [text]="grocery.productName + ' (' + grocery.brand + ')'" android:class="label-item" class="Label__Name"></Label>
+                <Label [text]="grocery.quantity" android:class="label-item" class="Label__Quantity"></Label>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+
+    <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ groceryList && groceryList.length > 0 ? 'collapsed' : 'visible' }}"></Label>
+
+    <Button row="3" text="Add" class="AddButton" (tap)="openAddItemForm()"></Button>
+
+</StackLayout>
+
+<AbsoluteLayout row="4" width="50%" height="50%" style="background-color: aliceblue" visibility="{{ showAddItemLayout ? 'visible' : 'collapsed' }}">
+    <!-- <ScrollView>
+        <StackLayout class="form">
+            <TextField class="m-15 input input-border" hint="Enter your name" text="{{ name }}"></TextField>
+        </StackLayout>
+    </ScrollView> -->
+    <Label top="0" style="text-align: center" width="100%" text="Add"></Label>
+    <Label top="60" style="text-align: center" width="100%" text="Add"></Label>
+    <Label top="120" style="text-align: center" width="100%" text="Add"></Label>
+    <Button top="180" style="text-align: center" width="100%" text="Back" class="BackButton" (tap)="showAddItemLayout = false"></Button>
+    <Button top="240" style="text-align: center" width="100%" text="Ok" class="OkButton" (tap)="addItem()"></Button>
+</AbsoluteLayout>
