@@ -1,3 +1,0 @@
-Cosa-ComproNG\app
-Cosa-ComproNG\platforms\android\app\src\main\assets\app
-Cosa-ComproNG\platforms\android\app\build\intermediates\assets\debug\app\pages\groceries-list
