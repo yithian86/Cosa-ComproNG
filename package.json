@@ -1,5 +1,6 @@
 {
 	"description": "NativeScript Application",
+	"version": "0.0.1",
 	"license": "SEE LICENSE IN <your-license-filename>",
 	"readme": "NativeScript Application",
 	"repository": "<fill-your-repository-here>",
