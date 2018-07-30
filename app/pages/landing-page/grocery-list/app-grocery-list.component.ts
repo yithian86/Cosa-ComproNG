@@ -62,7 +62,7 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
 
 
   ///////////////////////////////////////////// SERVICES /////////////////////////////////////////////////
-  public retrieveMyLists = () => {
+  public retrieveMyLists = (): void => {
     this.databaseService.getMyLists().then((myLists: any) => {
       this.myLists = !!myLists ? myLists : [];
 
@@ -70,7 +70,7 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
     });
   }
 
-  public retrieveGroceryListDetails = () => {
+  public retrieveGroceryListDetails = (): void => {
     if (!!this.myLists && this.myLists.length > 0) {
       const listId: number = this.myLists[this.selectedListIndex].listId;
       this.databaseService.getGroceryListDetails(listId).then((groceryList: any) => this.groceryList = !!groceryList ? groceryList : []);
@@ -79,18 +79,18 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
 
 
   ///////////////////////////////////////////// CHECKERS /////////////////////////////////////////////////
-  public isGroceryListEmpty() {
+  public isGroceryListEmpty = (): boolean => {
     return !this.groceryList || this.groceryList.length === 0;
   }
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onItemTap(args) {
+  public onItemTap = (args): void => {
     console.log(`${this.groceryList[args.index].productName} fa: Muuuu!`);
     alert(`${this.groceryList[args.index].productName} fa: Muuuu!`);
   }
 
-  public onListItemTap = (listName: string) => {
+  public onListItemTap = (listName: string): void => {
     const myListsNames: Array<string> = this.getMyListsNames();
     if (listName && myListsNames && myListsNames.length > 0) {
       // Update current list index
@@ -103,13 +103,13 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
     }
   }
 
-  public openAddItemForm() {
-    if (!this.isGroceryListEmpty()) {
+  public openAddItemForm = (): void => {
+    if (!!this.groceryList) {
       this.showAddItemLayout = true;
     }
   }
 
-  public addItem() {
+  public addItem = (): void => {
     this.groceryList.push({
       barCode: "0123456",
       productName: "Bombolone alla crema"
@@ -120,11 +120,11 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
     alert("Added Item");
   }
 
-  public openDrawer() {
+  public openDrawer = (): void => {
     this.drawer.showDrawer();
   }
 
-  public closeDrawer() {
+  public closeDrawer = (): void => {
     this.drawer.closeDrawer();
   }
 }

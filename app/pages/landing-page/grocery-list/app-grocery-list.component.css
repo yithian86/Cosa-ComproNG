@@ -1,17 +1,13 @@
 .AddButton {
     padding: 12;
-    background-color: whitesmoke;
-    /* border-radius: 10; */
-    /* color: white; */
+    background-color: white;
     font-family: FontAwesome;
     font-size: 24;
     vertical-align: middle;
-    /* width: 95%; */
 }
 
 .AddButton:active {
-    background-color: lightblue;
-    color:white;
+    background-color: whitesmoke;
 }
 
 .Label {
