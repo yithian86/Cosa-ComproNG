@@ -98,7 +98,7 @@ export class DatabaseService {
     });
   }
 
-  public getGroceryList(listId: number) {
+  public getGroceryListDetails(listId: number) {
     return new Promise((resolve, reject) => {
       this.createGroceryList().then((res: any) => {
         return res.all(`

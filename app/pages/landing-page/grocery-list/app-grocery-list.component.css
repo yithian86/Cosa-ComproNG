@@ -1,12 +1,12 @@
 .AddButton {
-    margin-top: 12;
-    background-color: lightskyblue;
-    border-radius: 5;
-    color: white;
+    padding: 12;
+    background-color: whitesmoke;
+    /* border-radius: 10; */
+    /* color: white; */
     font-family: FontAwesome;
     font-size: 24;
     vertical-align: middle;
-    width: 95%;
+    /* width: 95%; */
 }
 
 .AddButton:active {
@@ -15,7 +15,7 @@
 }
 
 .Label {
-    margin: 12;
+    padding: 12;
 }
 
 .Label__Name {
@@ -25,5 +25,46 @@
 .Label__Quantity {
     width: 20%;
     text-align: right;
+    font-weight: bold;
+}
+
+/************************ DRAWER CLASSES ***************************/
+.Drawer__SideStackLayout {
+    background-color: whitesmoke;
+}
+
+.Drawer__TitleWrapper {
+    height: 56;
+    vertical-align: center;
+}
+
+.Drawer__Title {
+    color: darkslategray;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.Drawer__LabelItem {
+    width: 100%;
+    padding: 10;
+    font-size: 18;
+    text-align: center;
+}
+
+.Drawer__OpenButton {
+    padding: 18;
+    background-color: lightskyblue;
+    color: white;
+    font-family: FontAwesome;
+    font-size: 18;
+    text-align: center;
+}
+
+.Drawer__CloseButton {
+    padding: 12;
+    color: darkslategray;
+    text-align: center;
+    text-transform: uppercase;
     font-weight: bold;
 }
