@@ -1,14 +1,16 @@
 import { Component, AfterViewInit, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page/page";
-import { DatabaseService } from "~/services/database.service";
 
-import { RadSideDrawerComponent, SideDrawerType } from "nativescript-ui-sidedrawer/angular";
+import { RadSideDrawerComponent, SideDrawerType } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+
+import { GroceryListDatabaseService } from "~/pages/landing-page/grocery-list/services/app-grocery-list.database.service";
 
 @Component({
   selector: "app-grocery-list",
-  templateUrl: "pages/landing-page/grocery-list/app-grocery-list.component.html",
-  styleUrls: ["pages/landing-page/grocery-list/app-grocery-list.component.css"]
+  templateUrl: "pages/landing-page/grocery-list/views/app-grocery-list.component.html",
+  styleUrls: ["pages/landing-page/grocery-list/styles/app-grocery-list.component.css"],
+  providers: [GroceryListDatabaseService]
 })
 export class AppGroceryListComponent implements AfterViewInit, OnInit {
   public title: string;
@@ -23,9 +25,9 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
   @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
 
   constructor(
-    private databaseService: DatabaseService,
-    public page: Page,
-    private _changeDetectionRef: ChangeDetectorRef
+    private databaseService: GroceryListDatabaseService,
+    private _changeDetectionRef: ChangeDetectorRef,
+    public page: Page
   ) {
     // Init variables
     this.title = "My grocery list";
