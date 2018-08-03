@@ -1,0 +1,74 @@
+<ActionBar title="Grocery List" class="action-bar"></ActionBar>
+<RadSideDrawer width="100%" height="100%" tkExampleTitle tkToggleNavButton>
+
+    <!-- DRAWER CONTENT -->
+    <StackLayout tkDrawerContent class="Drawer__SideStackLayout">
+        <!-- DRAWER - TITLE -->
+        <StackLayout class="Drawer__TitleWrapper">
+            <Label text="Choose a list" class="Drawer__Title"></Label>
+        </StackLayout>
+
+        <!-- DRAWER - ITEMS -->
+        <StackLayout width="100%" height="85%" class="Drawer__SideStackLayout">
+            <ListView [items]="getMyListsNames()" class="list-group">
+                <ng-template let-list="item">
+                    <FlexboxLayout class="list-group-item">
+                        <Label [text]="list" android:class="label-item" class="Drawer__LabelItem" (tap)="onListItemTap(list)"></Label>
+                    </FlexboxLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+
+        <!-- DRAWER - CLOSE BUTTON -->
+        <Label text="Close Drawer" class="Drawer__CloseButton" (tap)="closeDrawer()"></Label>
+    </StackLayout>
+    <!-- END DRAWER CONTENT -->
+
+
+    <!-- MAIN CONTENT -->
+    <StackLayout tkMainContent>
+        <!-- DRAWER - OPEN BUTTON -->
+        <Button [text]="getCurrentListName()" (tap)="openDrawer()" class="Drawer__OpenButton"></Button>
+
+        <!-- GROCERY LIST -->
+        <StackLayout>
+
+            <ListView row="2" [items]="groceryList" class="list-group" (itemTap)="onItemTap($event)" visibility="{{ isGroceryListEmpty() ? 'collapsed' : 'visible' }}">
+                <ng-template let-grocery="item" let-i="index">
+                    <FlexboxLayout class="list-group-item" (tap)="isEditMode = false" (longPress)="switchEditMode()">
+
+                        <TextField text="X" (tap)="deleteGroceryListItem(i)" [editable]="false" class="DeleteButton" visibility="{{ isEditMode ? 'visible' : 'collapsed' }}"></TextField>
+
+                        <StackLayout style="width:70%; padding-left:4">
+                            <Label [text]="grocery.productName" class="Label__Name"></Label>
+                            <Label [text]="grocery.brand" class="Label__Name"></Label>
+                        </StackLayout>
+
+                        <TextField
+                            required
+                            maxLength="3"
+                            keyboardType="number"
+                            returnKeyType="go"
+                            (returnPress)="updateGroceryList(i)"
+                            [(ngModel)]="grocery.quantity"
+                            [editable]="isEditMode"
+                            [ngClass]="{ 'Label__Quantity--isEditable': isEditMode, 'Label__Quantity': !isEditMode }">
+                        </TextField>
+
+                        <!-- TODO: remove fake price -->
+                        <TextField [text]="(grocery.quantity * 1.25) + '€'" [editable]="false" class="Label__Quantity">></TextField>
+
+                    </FlexboxLayout>
+                </ng-template>
+            </ListView>
+
+            <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isGroceryListEmpty() ? 'visible' : 'collapsed' }}"></Label>
+
+            <Button row="3" text="Add" class="AddButton" (tap)="goToMyGroceryLists()"></Button>
+
+        </StackLayout>
+
+    </StackLayout>
+    <!-- END MAIN CONTENT -->
+
+</RadSideDrawer>

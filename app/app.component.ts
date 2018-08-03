@@ -1,9 +1,13 @@
 import { Component } from "@angular/core";
+import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.html"
 })
 export class AppComponent {
-  // Your TypeScript logic goes here
+
+  constructor(private page: Page) {
+    // page.actionBarHidden = true;
+  }
 }
