@@ -31,13 +31,33 @@
             <Button [text]="getCurrentListName()" (tap)="openDrawer()" class="Drawer__OpenButton"></Button>
 
             <!-- GROCERY LIST -->
-            <StackLayout height="100%" visibility="{{ showAddItemLayout ? 'collapsed' : 'visible' }}">
+            <StackLayout visibility="{{ showAddItemLayout ? 'collapsed' : 'visible' }}">
 
                 <ListView row="2" [items]="groceryList" class="list-group" (itemTap)="onItemTap($event)" visibility="{{ isGroceryListEmpty() ? 'collapsed' : 'visible' }}">
                     <ng-template let-grocery="item" let-i="index" let-third="third" let-header="header" let-footer="footer">
-                        <FlexboxLayout [class.third]="third" [class.header]="header" [class.footer]="footer" class="list-group-item">
-                            <Label [text]="grocery.productName + ' (' + grocery.brand + ')'" android:class="label-item" class="Label__Name"></Label>
-                            <Label [text]="grocery.quantity" android:class="label-item" class="Label__Quantity"></Label>
+                        <FlexboxLayout [class.third]="third" [class.header]="header" [class.footer]="footer" class="list-group-item" (tap)="isEditMode = false" (longPress)="switchEditMode()">
+
+                            <Button text="X" (tap)="deleteGroceryListItem(i)" class="DeleteButton" visibility="{{ isEditMode ? 'visible' : 'collapsed' }}"></Button>
+
+                            <StackLayout style="width:70%; padding-left: 4;">
+                                <Label [text]="grocery.productName" class="Label__Name"></Label>
+                                <Label [text]="grocery.brand" class="Label__Name"></Label>
+                            </StackLayout>
+
+                            <TextField
+                                required
+                                maxLength="3"
+                                keyboardType="number"
+                                returnKeyType="go"
+                                (returnPress)="updateGroceryList(i)"
+                                [(ngModel)]="grocery.quantity"
+                                [editable]="isEditMode"
+                                [ngClass]="{ 'Label__Quantity--isEditable': isEditMode, 'Label__Quantity': !isEditMode }">
+                            </TextField>
+
+                            <!-- TODO: remove fake price -->
+                            <TextField [text]="(grocery.quantity * 1.25) + '€'" [editable]="false" class="Label__Quantity">></TextField>
+
                         </FlexboxLayout>
                     </ng-template>
                 </ListView>

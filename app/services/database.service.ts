@@ -99,33 +99,92 @@ export class DatabaseService {
   }
 
   public getGroceryListDetails(listId: number) {
+    const queryString: string = `
+      SELECT
+        ${this.MYLISTS_TABLE_NAME}.glist_id as glist_id,
+        groceryList.glist_id as id,
+        glist_name,
+        product_id_fk,
+        product_name,
+        brand,
+        quantity
+      FROM ${this.GROCERYLIST_TABLE_NAME}
+      INNER JOIN ${this.MYLISTS_TABLE_NAME} ON ${this.MYLISTS_TABLE_NAME}.glist_id = ${this.GROCERYLIST_TABLE_NAME}.list_id_fk
+      INNER JOIN ${this.PRODUCTS_TABLE_NAME} ON ${this.PRODUCTS_TABLE_NAME}.product_id = ${this.GROCERYLIST_TABLE_NAME}.product_id_fk
+      WHERE list_id_fk = ${listId} ORDER BY glist_id COLLATE NOCASE
+    `;
+
     return new Promise((resolve, reject) => {
       this.createGroceryList().then((res: any) => {
-        return res.all(`
-            SELECT
-              ${this.MYLISTS_TABLE_NAME}.glist_id as glist_id,
-              glist_name,
-              product_name,
-              brand,
-              quantity
-            FROM ${this.GROCERYLIST_TABLE_NAME}
-            INNER JOIN ${this.MYLISTS_TABLE_NAME} ON ${this.MYLISTS_TABLE_NAME}.glist_id = ${this.GROCERYLIST_TABLE_NAME}.list_id_fk
-            INNER JOIN ${this.PRODUCTS_TABLE_NAME} ON ${this.PRODUCTS_TABLE_NAME}.product_id = ${this.GROCERYLIST_TABLE_NAME}.product_id_fk
-            WHERE list_id_fk = ${listId} ORDER BY glist_id COLLATE NOCASE
-          `).then(rows => {
-            let result: Array<any> = [];
-            rows.forEach(row => {
-              result.push({
-                productName: row[2],
-                brand: row[3],
-                quantity: row[4]
-              });
+        return res.all(queryString).then(rows => {
+          let result: Array<any> = [];
+          rows.forEach(row => {
+            console.log(JSON.stringify(row));
+            result.push({
+              id: row[1],
+              productId: row[3],
+              productName: row[4],
+              brand: row[5],
+              quantity: row[6]
             });
-            resolve(result);
-          }), error => {
-            console.log("[DATABASE SERVICE ERROR] getGroceries:", error);
-            reject(error);
-          }
+          });
+          resolve(result);
+        }), error => {
+          console.log("[DATABASE SERVICE ERROR] getGroceries:", error);
+          reject(error);
+        }
+      })
+    });
+  }
+
+  public insertIntoGroceryListDetails(listId: number, productId: number, quantity: number) {
+    const queryString: string = `
+      INSERT INTO ${this.GROCERYLIST_TABLE_NAME} (product_id_fk, list_id_fk, quantity)
+      VALUES (${productId}, ${listId}, ${quantity})
+    `;
+
+    return new Promise((resolve, reject) => {
+      this.createGroceryList().then((res: any) => {
+        return res.all(queryString).then((rows => resolve(true)), error => {
+          console.log("[DATABASE SERVICE ERROR] insertIntoGroceryListDetails");
+          console.log(queryString);
+          reject(error);
+        }), error => reject(error)
+      })
+    });
+  }
+
+  public updateGroceryListDetails(glistId: number, listId: number, productId: number, quantity: number) {
+    const queryString: string = `
+      UPDATE ${this.GROCERYLIST_TABLE_NAME}
+      SET product_id_fk=${productId}, list_id_fk=${listId}, quantity=${quantity}
+      WHERE glist_id=${glistId}
+    `;
+
+    return new Promise((resolve, reject) => {
+      this.createGroceryList().then((res: any) => {
+        return res.all(queryString).then((rows => resolve(true)), error => {
+          console.log("[DATABASE SERVICE ERROR] updateGroceryListDetails");
+          console.log(queryString);
+          reject(error);
+        }), error => reject(error)
+      })
+    });
+  }
+
+  public deleteGroceryListItem(id: number) {
+    const queryString: string = `
+      DELETE FROM ${this.GROCERYLIST_TABLE_NAME}
+      WHERE glist_id=${id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      this.createGroceryList().then((res: any) => {
+        return res.all(queryString).then((rows => resolve(true)), error => {
+          console.log("[DATABASE SERVICE ERROR] deleteGroceryListItem");
+          console.log(queryString);
+          reject(error);
+        }), error => reject(error)
       })
     });
   }

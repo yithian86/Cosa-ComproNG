@@ -12,13 +12,13 @@ import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 })
 export class AppGroceryListComponent implements AfterViewInit, OnInit {
   public title: string;
+  public isEditMode: boolean;
   public myLists: Array<any>;
   public groceryList: Array<any>;
   public showAddItemLayout: boolean;
   public selectedListIndex: number;
 
   private drawer: RadSideDrawer;
-  private _mainContentText: string;
 
   @ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
 
@@ -29,6 +29,7 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
   ) {
     // Init variables
     this.title = "My grocery list";
+    this.isEditMode = false;
     this.showAddItemLayout = false;
     this.selectedListIndex = 0;
     this.page.backgroundSpanUnderStatusBar = true;
@@ -77,6 +78,25 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
     }
   }
 
+  public updateGroceryList = (productIndex: number): void => {
+    const listId: number = this.myLists[this.selectedListIndex].listId;
+    const glistId: number = this.groceryList[productIndex].id;
+    const productId: number = this.groceryList[productIndex].productId;
+    const quantity: number = this.groceryList[productIndex].quantity;
+    console.log(`Updating element #${productIndex}: ${listId} ${productId} ${quantity}`);
+    this.databaseService.updateGroceryListDetails(glistId, listId, productId, quantity);
+  }
+
+  public deleteGroceryListItem = (productIndex: number): void => {
+    const glistId: number = this.groceryList[productIndex].id;
+    console.log(`Deleting element #${productIndex}`);
+    // Update DB
+    this.databaseService.deleteGroceryListItem(glistId);
+
+    // Update list
+    this.groceryList.splice(productIndex, 1);
+  }
+
 
   ///////////////////////////////////////////// CHECKERS /////////////////////////////////////////////////
   public isGroceryListEmpty = (): boolean => {
@@ -118,6 +138,11 @@ export class AppGroceryListComponent implements AfterViewInit, OnInit {
 
     console.log("Added Item");
     alert("Added Item");
+  }
+
+  public switchEditMode = (): void => {
+    console.log("OUCH!");
+    this.isEditMode = !this.isEditMode;
   }
 
   public openDrawer = (): void => {
