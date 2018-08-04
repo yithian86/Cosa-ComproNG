@@ -17,7 +17,7 @@ import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/
 })
 export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
   public title: string;
-  public isEditMode: boolean;
+  public isEditing: boolean;
   public myLists: Array<any>;
   public groceryList: Array<any>;
   public selectedListIndex: number;
@@ -35,7 +35,7 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
   ) {
     // Init variables
     this.title = "My grocery list";
-    this.isEditMode = false;
+    this.isEditing = false;
     this.selectedListIndex = 0;
 
     // Load grocery lists and selected grocery list details
@@ -109,11 +109,6 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onItemTap = (args): void => {
-    console.log(`${this.groceryList[args.index].productName} fa: Muuuu!`);
-    alert(`${this.groceryList[args.index].productName} fa: Muuuu!`);
-  }
-
   public onListItemTap = (listName: string): void => {
     const myListsNames: Array<string> = this.getMyListsNames();
     if (listName && myListsNames && myListsNames.length > 0) {
@@ -128,8 +123,7 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
   }
 
   public switchEditMode = (): void => {
-    console.log("OUCH!");
-    this.isEditMode = !this.isEditMode;
+    this.isEditing = !this.isEditing;
   }
 
   public openDrawer = (): void => {
@@ -140,9 +134,9 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
     this.drawer.closeDrawer();
   }
 
-  public goToMyGroceryLists = (): void => {
+  public goToGroceryListForm = (): void => {
     console.log("Navigating to MyGroceryLists...");
-    this.routerExtensions.navigate(["/home/myGroceryLists"], {
+    this.routerExtensions.navigate(["/home/groceryList/groceryListForm"], {
       transition: {
         name: "slideLeft",
         duration: 300

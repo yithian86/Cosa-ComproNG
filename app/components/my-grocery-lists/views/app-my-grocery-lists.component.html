@@ -1,15 +1,5 @@
 <ActionBar title="My Grocery Lists" class="action-bar"></ActionBar>
-<AbsoluteLayout row="4" width="50%" height="50%" style="background-color: aliceblue">
-    <!-- <ScrollView>
-            <StackLayout class="form">
-                <TextField class="m-15 input input-border" hint="Enter your name" text="{{ name }}"></TextField>
-            </StackLayout>
-        </ScrollView> -->
-    <Label top="0" style="text-align: center" width="100%" text="Add"></Label>
-    <Label top="60" style="text-align: center" width="100%" text="Add"></Label>
-    <Label top="120" style="text-align: center" width="100%" text="Add"></Label>
-    
-    <Button top="180" style="text-align: center" width="100%" text="Back" (tap)="goToGroceryListDetails()" class="BackButton"></Button>
-    
-    <Button top="240" style="text-align: center" width="100%" text="Ok" class="OkButton"></Button>
-</AbsoluteLayout>
+
+<StackLayout>
+    <Button style="text-align: center" text="Back" (tap)="goToGroceryListDetails()"></Button>
+</StackLayout>
