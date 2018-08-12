@@ -1,6 +1,7 @@
 import { AppGroceryListDetailsComponent } from "~/components/grocery-list-details/components/app-grocery-list-details.component"
 import { AppMyGroceryListsComponent } from "~/components/my-grocery-lists/components/app-my-grocery-lists.component";
 import { AppProductListComponent } from "~/components/product-list/components/app-product-list.component"
+import { AppBarcodeScannerComponent } from "~/components/product-list/components/app-barcode-scanner.component";
 
 export const routes = [
   { path: "", redirectTo: "/home/groceryList/groceryListDetails", pathMatch: "full" },
@@ -12,7 +13,12 @@ export const routes = [
         ]
       },
       { path: "myGroceryLists", component: AppMyGroceryListsComponent },
-      { path: "productList", component: AppProductListComponent }
+      {
+        path: "productList", children: [
+          { path: "list", component: AppProductListComponent },
+          { path: "barcodeScanner", component: AppBarcodeScannerComponent }
+        ]
+      }
     ]
   }
 ];
@@ -20,5 +26,6 @@ export const routes = [
 export const navigatableComponents = [
   AppGroceryListDetailsComponent,
   AppMyGroceryListsComponent,
-  AppProductListComponent
+  AppProductListComponent,
+  AppBarcodeScannerComponent
 ];

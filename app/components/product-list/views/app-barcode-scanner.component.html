@@ -1,0 +1,11 @@
+<ActionBar title="Products - Barcode Scanner" class="action-bar">
+    <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" (tap)="goToProductList()"></NavigationButton>
+</ActionBar>
+
+
+<StackLayout class="p-20" style="width: 100%; height: 100%; vertical-align: middle">
+    <Label text="Add a product by scanning its barcode! It's fun and practical at the same time!" textWrap="true" class="h3 text-center" style="margin: 10"></Label>
+    <Button text="GO!" (tap)="scanBarcode()" class="btn btn-primary btn-active" style="width: 300; height: 300; margin: 20; border-radius: 300; font-weight: bolder; font-size: 100"></Button>
+    <Label text="RESULT" class="h2 text-center"></Label>
+    <Label [text]="getResultText()" class="h3 text-center"></Label>
+</StackLayout>

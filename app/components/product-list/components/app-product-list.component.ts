@@ -136,6 +136,16 @@ export class AppProductListComponent implements OnInit {
     console.log("TAPPED PRODUCT!");
   }
 
+  public goToBarcodeScanner = () => {
+    console.log("Navigating to Barcode Scanner...");
+    this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
+      transition: {
+        name: "slideLeft",
+        duration: 300
+      }
+    });
+  }
+
   public goToGroceryListDetails = () => {
     console.log("Navigating to Grocery List Details...");
     this.routerExtensions.navigate(["/home/groceryList/groceryListDetails"], {

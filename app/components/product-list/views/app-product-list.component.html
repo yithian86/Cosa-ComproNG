@@ -1,4 +1,4 @@
-<ActionBar title="Grocery List - Form" class="action-bar">
+<ActionBar title="Products" class="action-bar">
     <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" (tap)="goToGroceryListDetails()"></NavigationButton>
     <ActionItem
         (tap)="isAddProductOpened = true"
@@ -51,7 +51,7 @@
     <AbsoluteLayout style="width: 100%; height: 100%" visibility="{{ isAddProductOpened ? 'visible' : 'collapsed' }}">
         <StackLayout (tap)="isAddProductOpened = false" style="width: 100%; height: 100%; background-color: lightgray; opacity: 0.7"></StackLayout>
         <StackLayout style="width: 100%">
-            <Button text="Scan barcode" style="width: 50%"></Button>
+            <Button text="Scan barcode" (tap)="goToBarcodeScanner()" style="width: 50%"></Button>
             <Button text="Manually" style="width: 50%"></Button>
         </StackLayout>
     </AbsoluteLayout>
