@@ -42,6 +42,10 @@ Button.AddButton:active {
     font-weight: bold;
 }
 
+.Label__NoItems {
+    margin-bottom: 16;
+}
+
 /************************ DRAWER CLASSES ***************************/
 .Drawer__SideStackLayout {
     background-color: whitesmoke;

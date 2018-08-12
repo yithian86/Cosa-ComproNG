@@ -13,7 +13,7 @@ export class GroceryListDetailsDBService {
     return new Promise((resolve, reject) => {
       return (new SQLite(DB_GLOBALS.DB_NAME)).then(db => {
         db.execSQL(`
-          CREATE TABLE IF NOT EXISTS ${DB_GLOBALS.GROCERYLIST_TABLE_NAME} (
+          CREATE TABLE IF NOT EXISTS ${DB_GLOBALS.TABLES.GROCERYLIST} (
             glist_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT (0),
             quantity INTEGER DEFAULT (1),
             product_id_fk INTEGER NOT NULL,
@@ -38,16 +38,16 @@ export class GroceryListDetailsDBService {
   public getGroceryListDetails(listId: number) {
     const queryString: string = `
       SELECT
-        ${DB_GLOBALS.MYLISTS_TABLE_NAME}.glist_id as glist_id,
+        ${DB_GLOBALS.TABLES.MYLISTS}.glist_id as glist_id,
         groceryList.glist_id as id,
         glist_name,
         product_id_fk,
         product_name,
         brand,
         quantity
-      FROM ${DB_GLOBALS.GROCERYLIST_TABLE_NAME}
-      INNER JOIN ${DB_GLOBALS.MYLISTS_TABLE_NAME} ON ${DB_GLOBALS.MYLISTS_TABLE_NAME}.glist_id = ${DB_GLOBALS.GROCERYLIST_TABLE_NAME}.list_id_fk
-      INNER JOIN ${DB_GLOBALS.PRODUCTS_TABLE_NAME} ON ${DB_GLOBALS.PRODUCTS_TABLE_NAME}.product_id = ${DB_GLOBALS.GROCERYLIST_TABLE_NAME}.product_id_fk
+      FROM ${DB_GLOBALS.TABLES.GROCERYLIST}
+      INNER JOIN ${DB_GLOBALS.TABLES.MYLISTS} ON ${DB_GLOBALS.TABLES.MYLISTS}.glist_id = ${DB_GLOBALS.TABLES.GROCERYLIST}.list_id_fk
+      INNER JOIN ${DB_GLOBALS.TABLES.PRODUCTS} ON ${DB_GLOBALS.TABLES.PRODUCTS}.product_id = ${DB_GLOBALS.TABLES.GROCERYLIST}.product_id_fk
       WHERE list_id_fk = ${listId} ORDER BY glist_id COLLATE NOCASE
     `;
 
@@ -76,7 +76,7 @@ export class GroceryListDetailsDBService {
 
   public insertIntoGroceryListDetails(listId: number, productId: number, quantity: number) {
     const queryString: string = `
-      INSERT INTO ${DB_GLOBALS.GROCERYLIST_TABLE_NAME} (product_id_fk, list_id_fk, quantity)
+      INSERT INTO ${DB_GLOBALS.TABLES.GROCERYLIST} (product_id_fk, list_id_fk, quantity)
       VALUES (${productId}, ${listId}, ${quantity})
     `;
 
@@ -93,7 +93,7 @@ export class GroceryListDetailsDBService {
 
   public updateGroceryListDetails(glistId: number, listId: number, productId: number, quantity: number) {
     const queryString: string = `
-      UPDATE ${DB_GLOBALS.GROCERYLIST_TABLE_NAME}
+      UPDATE ${DB_GLOBALS.TABLES.GROCERYLIST}
       SET product_id_fk=${productId}, list_id_fk=${listId}, quantity=${quantity}
       WHERE glist_id=${glistId}
     `;
@@ -111,7 +111,7 @@ export class GroceryListDetailsDBService {
 
   public deleteGroceryListItem(id: number) {
     const queryString: string = `
-      DELETE FROM ${DB_GLOBALS.GROCERYLIST_TABLE_NAME}
+      DELETE FROM ${DB_GLOBALS.TABLES.GROCERYLIST}
       WHERE glist_id=${id}
     `;
 

@@ -5,7 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router/router-extensions"
 import { RadSideDrawerComponent, SideDrawerType } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
-import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list-details.database.service";
+import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
 import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/app-my-grocery-lists.database.service";
 
 
@@ -135,8 +135,8 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
   }
 
   public goToGroceryListForm = (): void => {
-    console.log("Navigating to MyGroceryLists...");
-    this.routerExtensions.navigate(["/home/groceryList/groceryListForm"], {
+    console.log("Navigating to Product List...");
+    this.routerExtensions.navigate(["/home/productList"], {
       transition: {
         name: "slideLeft",
         duration: 300

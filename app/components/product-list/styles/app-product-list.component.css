@@ -1,0 +1,10 @@
+Label.Label__Category {
+    padding: 8;
+    background-color: #CCCCCC;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+ListView > li {
+    padding: 0;
+}

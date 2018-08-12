@@ -7,6 +7,9 @@
         visibility="{{ isEditing || isGroceryListEmpty() ? 'collapse' : 'visible' }}"
     ></ActionItem>
 </ActionBar>
+
+
+
 <RadSideDrawer width="100%" height="100%" tkExampleTitle tkToggleNavButton>
 
     <!-- DRAWER CONTENT -->
@@ -41,9 +44,9 @@
         <!-- GROCERY LIST -->
         <StackLayout>
 
-            <ListView row="2" [items]="groceryList" class="list-group" visibility="{{ isGroceryListEmpty() ? 'collapsed' : 'visible' }}">
+            <ListView row="1" [items]="groceryList" class="list-group">
                 <ng-template let-grocery="item" let-i="index">
-                    <FlexboxLayout class="list-group-item" (tap)="switchEditMode()">
+                    <FlexboxLayout class="list-group-item" (tap)="isEditing = false">
 
                         <TextField text="X" (tap)="deleteGroceryListItem(i)" [editable]="false" class="DeleteButton" visibility="{{ isEditing ? 'visible' : 'collapsed' }}"></TextField>
 
@@ -70,7 +73,7 @@
                 </ng-template>
             </ListView>
 
-            <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isGroceryListEmpty() ? 'visible' : 'collapsed' }}"></Label>
+            <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15 Label__NoItems" visibility="{{ isGroceryListEmpty() ? 'visible' : 'collapsed' }}"></Label>
 
             <Button row="3" text="Add" class="AddButton" (tap)="goToGroceryListForm()"></Button>
 
