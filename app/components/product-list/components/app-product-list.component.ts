@@ -16,6 +16,7 @@ export class AppProductListComponent implements OnInit {
   public productListByCategory: Array<any>;
   public selectedCategoryIndex: number;
   public isFilterByOpened: boolean;
+  public isAddProductOpened: boolean;
 
   constructor(
     private routerExtensions: RouterExtensions,
@@ -115,7 +116,6 @@ export class AppProductListComponent implements OnInit {
     if (event && event.object) {
       const picker: any = <ListPicker>event.object;
       this.selectedCategoryIndex = picker.selectedIndex;
-      console.log("selected: ", this.selectedCategoryIndex);
     } else {
       if (this.categoryList && this.categoryList.length > 0) {
         if (this.selectedCategoryIndex === 0) {
@@ -126,10 +126,14 @@ export class AppProductListComponent implements OnInit {
           const selectedCategory: string = this.categoryList[this.selectedCategoryIndex];
           this.retrieveProductListByCategory(selectedCategory);
         }
-        console.log("Filter list by: ", this.categoryList[this.selectedCategoryIndex]);
+        console.log("Filter list by:", this.categoryList[this.selectedCategoryIndex]);
       }
       this.isFilterByOpened = false;
     }
+  }
+
+  public onTapProduct = () => {
+    console.log("TAPPED PRODUCT!");
   }
 
   public goToGroceryListDetails = () => {

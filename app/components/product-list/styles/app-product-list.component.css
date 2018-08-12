@@ -1,3 +1,12 @@
+.Button__FilterBy {
+    padding: 18;
+    background-color: lightskyblue;
+    color: white;
+    font-family: FontAwesome;
+    font-size: 18;
+    text-align: center;
+}
+
 Label.Label__Category {
     padding: 8;
     background-color: #CCCCCC;
