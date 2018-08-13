@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
-import { ListPicker } from "ui/list-picker"
+import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker"
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
-import { ProductsDBService } from "~/components/product-list/services/app-products.database.service";
+import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
 
 @Component({
   selector: "app-product-list",
@@ -132,8 +132,12 @@ export class AppProductListComponent implements OnInit {
     }
   }
 
-  public onTapProduct = () => {
-    console.log("TAPPED PRODUCT!");
+  public onTapProduct = (event: any, categoryIndex: number) => {
+    const productIndex: number = event.index;
+    const product: any = this.getProductList(categoryIndex)[productIndex];
+    const categoryName: string = this.getCategory(categoryIndex);
+
+    console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);
   }
 
   public goToBarcodeScanner = () => {
