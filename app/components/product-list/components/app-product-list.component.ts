@@ -4,6 +4,7 @@ import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker"
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
+import { IProductList, IProduct } from "~/components/typings/product";
 
 @Component({
   selector: "app-product-list",
@@ -13,7 +14,7 @@ import { ProductsDBService } from "~/components/product-list/services/app-produc
 })
 export class AppProductListComponent implements OnInit {
   public categoryList: Array<string>;
-  public productListByCategory: Array<any>;
+  public productListByCategory: Array<IProductList>;
   public selectedCategoryIndex: number;
   public isFilterByOpened: boolean;
   public isAddProductOpened: boolean;
@@ -34,9 +35,9 @@ export class AppProductListComponent implements OnInit {
 
 
   //////////////////////////////////////// GETTERS AND SETTERS ///////////////////////////////////////////
-  public getProductListByCategory = () => this.productListByCategory && this.productListByCategory.length > 0 ? this.productListByCategory : [];
+  public getProductListByCategory = (): Array<IProductList> => this.productListByCategory && this.productListByCategory.length > 0 ? this.productListByCategory : [];
 
-  public getProductList = (index: number): Array<any> => {
+  public getProductList = (index: number): Array<IProduct> => {
     if (this.productListByCategory && this.productListByCategory[index] && this.productListByCategory[index].productList) {
       // console.log(JSON.stringify(this.productListByCategory[index]));
       return this.productListByCategory[index].productList;
@@ -85,7 +86,7 @@ export class AppProductListComponent implements OnInit {
     this.productListByCategory = [];
 
     this.productsDBService.getProducts(category)
-      .then((productList: Array<any>) => {
+      .then((productList: Array<IProduct>) => {
 
         if (productList && productList.length > 0) {
           this.productListByCategory.push({
@@ -134,7 +135,7 @@ export class AppProductListComponent implements OnInit {
 
   public onTapProduct = (event: any, categoryIndex: number) => {
     const productIndex: number = event.index;
-    const product: any = this.getProductList(categoryIndex)[productIndex];
+    const product: IProduct = this.getProductList(categoryIndex)[productIndex];
     const categoryName: string = this.getCategory(categoryIndex);
 
     console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);

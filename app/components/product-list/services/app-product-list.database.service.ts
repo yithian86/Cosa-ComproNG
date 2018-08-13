@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { DB_GLOBALS } from "~/entities/globals";
 import { DatabaseService } from "~/services/database.service";
-import { Product } from "~/components/typings/product";
+import { IProduct } from "~/components/typings/product";
 
 let SQLite = require("nativescript-sqlite");
 
@@ -37,11 +37,11 @@ export class ProductsDBService {
 
     return new Promise((resolve, reject) => {
       this.baseDBService.connectToDB().then((res: any) => {
-        return res.all(queryString).then((products: Array<Product>) => {
-          let result: Array<Product> = [];
+        return res.all(queryString).then((products: Array<IProduct>) => {
+          let result: Array<IProduct> = [];
           
-          products.forEach((prod: Product) => {
-            const newProduct: Product = {
+          products.forEach((prod: IProduct) => {
+            const newProduct: IProduct = {
               id: prod[0],
               weightVolume: prod[1],
               barCode: prod[2],

@@ -5,10 +5,15 @@
  *~ Be sure this actually makes sense! If it doesn't, just
  *~ delete this declaration and add types inside the namespace below.
  */
-export interface Product {
+export interface IProduct {
   barCode: string,
   brand: string,
   id: number,
   productName: string,
   weightVolume: string
+}
+
+export interface IProductList {
+  category: string,
+  productList: Array<IProduct>
 }
