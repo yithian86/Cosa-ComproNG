@@ -4,7 +4,7 @@ import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker"
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
-import { IProductList, IProduct } from "~/components/typings/product";
+import { ICategoryProducts, IProduct } from "~/components/typings/product";
 
 @Component({
   selector: "app-product-list",
@@ -14,7 +14,7 @@ import { IProductList, IProduct } from "~/components/typings/product";
 })
 export class AppProductListComponent implements OnInit {
   public categoryList: Array<string>;
-  public productListByCategory: Array<IProductList>;
+  public productsListByCategory: Array<ICategoryProducts>;
   public selectedCategoryIndex: number;
   public isFilterByOpened: boolean;
   public isAddProductOpened: boolean;
@@ -26,7 +26,7 @@ export class AppProductListComponent implements OnInit {
   ) {
     this.selectedCategoryIndex = 0;
     this.categoryList = [];
-    this.productListByCategory = [];
+    this.productsListByCategory = [];
   }
 
   ngOnInit() {
@@ -35,34 +35,34 @@ export class AppProductListComponent implements OnInit {
 
 
   //////////////////////////////////////// GETTERS AND SETTERS ///////////////////////////////////////////
-  public getProductListByCategory = (): Array<IProductList> => this.productListByCategory && this.productListByCategory.length > 0 ? this.productListByCategory : [];
+  public getproductsListByCategory = (): Array<ICategoryProducts> => this.productsListByCategory && this.productsListByCategory.length > 0 ? this.productsListByCategory : [];
 
   public getProductList = (index: number): Array<IProduct> => {
-    if (this.productListByCategory && this.productListByCategory[index] && this.productListByCategory[index].productList) {
-      // console.log(JSON.stringify(this.productListByCategory[index]));
-      return this.productListByCategory[index].productList;
+    if (this.productsListByCategory && this.productsListByCategory[index] && this.productsListByCategory[index].productList) {
+      // console.log(JSON.stringify(this.productsListByCategory[index]));
+      return this.productsListByCategory[index].productList;
     } else {
       return [];
     }
   }
 
   public getCategory = (index: number): string => {
-    if (this.productListByCategory && this.productListByCategory[index] && this.productListByCategory[index].category) {
-      return this.productListByCategory[index].category;
+    if (this.productsListByCategory && this.productsListByCategory[index] && this.productsListByCategory[index].category) {
+      return this.productsListByCategory[index].category;
     } else {
       return "-";
     }
   }
 
-  public getProductListHeight = (index: number) => {
-    if (this.productListByCategory && this.productListByCategory[index] && this.productListByCategory[index].productList) {
-      return this.productListByCategory[index].productList.length * 78;
+  public getProductListHeight = (index: number): number => {
+    if (this.productsListByCategory && this.productsListByCategory[index] && this.productsListByCategory[index].productList) {
+      return this.productsListByCategory[index].productList.length * 78;
     } else {
       return 0;
     }
   }
 
-  public getFilterByText = () => {
+  public getFilterByText = (): string => {
     if (this.categoryList && this.categoryList.length > 0) {
       return `Filter products by: ${this.categoryList[this.selectedCategoryIndex]}`;
     } else {
@@ -72,24 +72,24 @@ export class AppProductListComponent implements OnInit {
 
 
   ///////////////////////////////////////////// CHECKERS /////////////////////////////////////////////////
-  public isProductListEmpty = (index: number) => {
-    return !(this.productListByCategory && this.productListByCategory[index] && this.productListByCategory[index].productList && this.productListByCategory[index].productList.length > 0);
+  public isProductListEmpty = (index: number): boolean => {
+    return !(this.productsListByCategory && this.productsListByCategory[index] && this.productsListByCategory[index].productList && this.productsListByCategory[index].productList.length > 0);
   }
 
-  public isProductListByCategoryEmpty = () => {
-    return !(this.productListByCategory && this.productListByCategory.length > 0);
+  public isproductsListByCategoryEmpty = (): boolean => {
+    return !(this.productsListByCategory && this.productsListByCategory.length > 0);
   }
 
 
   ///////////////////////////////////////////// SERVICES /////////////////////////////////////////////////
-  public retrieveProductListByCategory = (category: string) => {
-    this.productListByCategory = [];
+  public retrieveproductsListByCategory = (category: string) => {
+    this.productsListByCategory = [];
 
     this.productsDBService.getProducts(category)
       .then((productList: Array<IProduct>) => {
 
         if (productList && productList.length > 0) {
-          this.productListByCategory.push({
+          this.productsListByCategory.push({
             category: category,
             productList: productList
           });
@@ -105,7 +105,7 @@ export class AppProductListComponent implements OnInit {
         this.categoryList.unshift("All");
 
         categories.forEach((category) => {
-          this.retrieveProductListByCategory(category);
+          this.retrieveproductsListByCategory(category);
         })
       })
       .catch(error => console.error(error));
@@ -125,7 +125,7 @@ export class AppProductListComponent implements OnInit {
         } else {
           // Filter by a specific category
           const selectedCategory: string = this.categoryList[this.selectedCategoryIndex];
-          this.retrieveProductListByCategory(selectedCategory);
+          this.retrieveproductsListByCategory(selectedCategory);
         }
         console.log("Filter list by:", this.categoryList[this.selectedCategoryIndex]);
       }

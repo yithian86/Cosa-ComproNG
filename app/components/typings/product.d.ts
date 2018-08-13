@@ -13,7 +13,7 @@ export interface IProduct {
   weightVolume: string
 }
 
-export interface IProductList {
+export interface ICategoryProducts {
   category: string,
   productList: Array<IProduct>
 }

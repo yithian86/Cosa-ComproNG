@@ -30,9 +30,9 @@ export class ProductsDBService {
   }
 
   public getProducts(category?: string) {
-    let queryString: string = `SELECT * FROM ${DB_GLOBALS.TABLES.PRODUCTS} `;
+    let queryString: string = `SELECT * FROM ${DB_GLOBALS.TABLES.PRODUCTS}`;
     if (!!category) {
-      queryString += `WHERE category='${category}'`;
+      queryString += ` WHERE category='${category}'`;
     }
 
     return new Promise((resolve, reject) => {

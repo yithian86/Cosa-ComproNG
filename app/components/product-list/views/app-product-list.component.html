@@ -14,7 +14,7 @@
         <!-- NORMAL VIEW -->
         <StackLayout visibility="{{ isFilterByOpened ? 'collapsed' : 'visible' }}">
             <Button [text]="getFilterByText()" (tap)="isFilterByOpened = true" class="Button__FilterBy"></Button>
-            <ListView row="1" [items]="getProductListByCategory()" class="list-group" style="separator-color: transparent">
+            <ListView row="1" [items]="getproductsListByCategory()" class="list-group" style="separator-color: transparent">
                 <ng-template let-productList="item" let-i="index" style="background-color: white">
 
                     <!-- PRODUCT LIST -->
@@ -37,7 +37,7 @@
 
                 </ng-template>
             </ListView>
-            <Label [text]="'- No products -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isProductListByCategoryEmpty() ? 'visible' : 'collapsed' }}"></Label>
+            <Label [text]="'- No products -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isProductsListByCategoryEmpty() ? 'visible' : 'collapsed' }}"></Label>
         </StackLayout>
     </StackLayout>
 
