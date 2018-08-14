@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
-import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker"
+import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
+import * as dialogs from "ui/dialogs";
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
@@ -17,7 +18,6 @@ export class AppProductListComponent implements OnInit {
   public productsListByCategory: Array<ICategoryProducts>;
   public selectedCategoryIndex: number;
   public isFilterByOpened: boolean;
-  public isAddProductOpened: boolean;
 
   constructor(
     private routerExtensions: RouterExtensions,
@@ -76,7 +76,7 @@ export class AppProductListComponent implements OnInit {
     return !(this.productsListByCategory && this.productsListByCategory[index] && this.productsListByCategory[index].productList && this.productsListByCategory[index].productList.length > 0);
   }
 
-  public isproductsListByCategoryEmpty = (): boolean => {
+  public isProductsListByCategoryEmpty = (): boolean => {
     return !(this.productsListByCategory && this.productsListByCategory.length > 0);
   }
 
@@ -113,7 +113,7 @@ export class AppProductListComponent implements OnInit {
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onCategorySelected = (event?: any) => {
+  public onCategorySelected = (event?: any): void => {
     if (event && event.object) {
       const picker: any = <ListPicker>event.object;
       this.selectedCategoryIndex = picker.selectedIndex;
@@ -133,7 +133,7 @@ export class AppProductListComponent implements OnInit {
     }
   }
 
-  public onTapProduct = (event: any, categoryIndex: number) => {
+  public onTapProduct = (event: any, categoryIndex: number): void => {
     const productIndex: number = event.index;
     const product: IProduct = this.getProductList(categoryIndex)[productIndex];
     const categoryName: string = this.getCategory(categoryIndex);
@@ -141,14 +141,27 @@ export class AppProductListComponent implements OnInit {
     console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);
   }
 
-  public goToBarcodeScanner = () => {
-    console.log("Navigating to Barcode Scanner...");
-    this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
-      transition: {
-        name: "slideLeft",
-        duration: 300
-      }
-    });
+  public openAddProductDialog = (): void => {
+    dialogs
+      .action({
+        message: "How would you like to add the product?",
+        cancelButtonText: "Back",
+        actions: ["Barcode scanner", "Manually"]
+      })
+      .then(result => {
+        console.log("Dialog result: " + result);
+        if (result == "Barcode scanner") {
+          console.log("Navigating to Barcode Scanner...");
+          this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
+            transition: {
+              name: "slideLeft",
+              duration: 300
+            }
+          });
+        } else if (result == "Manually") {
+          //Do action 2
+        }
+      });
   }
 
   public goToGroceryListDetails = () => {

@@ -1,11 +1,10 @@
 <ActionBar title="Products" class="action-bar">
     <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" (tap)="goToGroceryListDetails()"></NavigationButton>
     <ActionItem
-        (tap)="isAddProductOpened = true"
+        (tap)="openAddProductDialog()"
         ios.systemIcon="4"
         android.systemIcon="ic_menu_add"
         ios.position="right"
-        visibility="{{ isAddProductOpened ? 'collapse' : 'visible' }}"
     ></ActionItem>
 </ActionBar>
 
@@ -46,13 +45,4 @@
         <ListPicker [items]="categoryList" [selectedIndex]="selectedCategoryIndex" (selectedIndexChange)="onCategorySelected($event)" class="p-15"></ListPicker>
         <Button text="OK" (tap)="onCategorySelected()"></Button>
     </StackLayout>
-
-    <!-- NEW PRODUCT OVERLAY -->
-    <AbsoluteLayout style="width: 100%; height: 100%; z-index: 1000;" visibility="{{ isAddProductOpened ? 'visible' : 'collapsed' }}">
-        <StackLayout (tap)="isAddProductOpened = false" style="width: 100%; height: 100%; background-color: lightgray; opacity: 0.8"></StackLayout>
-        <StackLayout style="width: 100%">
-            <Button text="Scan barcode" (tap)="goToBarcodeScanner()" style="width: 50%"></Button>
-            <Button text="Manually" style="width: 50%"></Button>
-        </StackLayout>
-    </AbsoluteLayout>
 <!-- </AbsoluteLayout> -->
