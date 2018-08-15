@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
-import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
 import { action } from "ui/dialogs";
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";

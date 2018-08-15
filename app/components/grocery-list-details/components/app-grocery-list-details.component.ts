@@ -1,8 +1,9 @@
 import { Component, AfterViewInit, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page/page";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
+import { action } from "ui/dialogs";
 
-import { RadSideDrawerComponent, SideDrawerType } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
 import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
@@ -109,21 +110,28 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onListItemTap = (listName: string): void => {
-    const myListsNames: Array<string> = this.getMyListsNames();
-    if (listName && myListsNames && myListsNames.length > 0) {
-      // Update current list index
-      this.selectedListIndex = myListsNames.indexOf(listName);
-
-      this.retrieveGroceryListDetails();
-
-      // Close drawer
-      this.closeDrawer();
-    }
-  }
-
   public switchEditMode = (): void => {
     this.isEditing = !this.isEditing;
+  }
+
+  public showMyListsDialog = () => {
+    const myListsNames: Array<string> = this.getMyListsNames();
+
+    let options = {
+      title: "Choose grocery list:",
+      message: "",
+      cancelButtonText: "Cancel",
+      actions: myListsNames
+    };
+
+    action(options).then((selectedListName) => {
+      if (selectedListName && selectedListName !== "Cancel" && myListsNames && myListsNames.length > 0) {
+        // Update current list index
+        this.selectedListIndex = myListsNames.indexOf(selectedListName);
+
+        this.retrieveGroceryListDetails();
+      }
+    });
   }
 
   public openDrawer = (): void => {
