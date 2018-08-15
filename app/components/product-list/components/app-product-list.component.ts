@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
 import { ListPicker } from "tns-core-modules/ui/list-picker/list-picker";
-// import * as dialogs from "tns-core-modules/ui/dialogs/dialogs";
+import { action } from "ui/dialogs";
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
@@ -16,15 +16,14 @@ import { ICategoryProducts, IProduct } from "~/components/typings/product";
 export class AppProductListComponent implements OnInit {
   public categoryList: Array<string>;
   public productsListByCategory: Array<ICategoryProducts>;
-  public selectedCategoryIndex: number;
-  public isFilterByOpened: boolean;
+  public selectedCategory: string;
 
   constructor(
     private routerExtensions: RouterExtensions,
     private categoriesDBService: CategoriesDBService,
     private productsDBService: ProductsDBService
   ) {
-    this.selectedCategoryIndex = 0;
+    this.selectedCategory = "All";
     this.categoryList = [];
     this.productsListByCategory = [];
   }
@@ -64,7 +63,7 @@ export class AppProductListComponent implements OnInit {
 
   public getFilterByText = (): string => {
     if (this.categoryList && this.categoryList.length > 0) {
-      return `Filter products by: ${this.categoryList[this.selectedCategoryIndex]}`;
+      return `Filter products by: ${this.selectedCategory}`;
     } else {
       return "-";
     }
@@ -113,26 +112,6 @@ export class AppProductListComponent implements OnInit {
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onCategorySelected = (event?: any): void => {
-    if (event && event.object) {
-      const picker: any = <ListPicker>event.object;
-      this.selectedCategoryIndex = picker.selectedIndex;
-    } else {
-      if (this.categoryList && this.categoryList.length > 0) {
-        if (this.selectedCategoryIndex === 0) {
-          // Show all products
-          this.retrieveProductList();
-        } else {
-          // Filter by a specific category
-          const selectedCategory: string = this.categoryList[this.selectedCategoryIndex];
-          this.retrieveproductsListByCategory(selectedCategory);
-        }
-        console.log("Filter list by:", this.categoryList[this.selectedCategoryIndex]);
-      }
-      this.isFilterByOpened = false;
-    }
-  }
-
   public onTapProduct = (event: any, categoryIndex: number): void => {
     const productIndex: number = event.index;
     const product: IProduct = this.getProductList(categoryIndex)[productIndex];
@@ -141,28 +120,30 @@ export class AppProductListComponent implements OnInit {
     console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);
   }
 
-  public openAddProductDialog = (): void => {
-    // dialogs
-    //   .action({
-    //     message: "How would you like to add the product?",
-    //     cancelButtonText: "Back",
-    //     actions: ["Barcode scanner", "Manually"]
-    //   })
-    //   .then(result => {
-    //     console.log("Dialog result: " + result);
-    //     if (result == "Barcode scanner") {
-    //       console.log("Navigating to Barcode Scanner...");
-    //       this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
-    //         transition: {
-    //           name: "slideLeft",
-    //           duration: 300
-    //         }
-    //       });
-    //     } else if (result == "Manually") {
-    //       //Do action 2
-    //     }
-    //   });
+  public showCategoryDialog = () => {
+    let options = {
+      title: "Choose product category:",
+      message: "",
+      cancelButtonText: "Cancel",
+      actions: this.categoryList
+    };
 
+    action(options).then((selectedCategory) => {
+      if (selectedCategory && selectedCategory !== "Cancel") {
+        this.selectedCategory = selectedCategory;
+        if (selectedCategory === "All") {
+          // Show all products
+          this.retrieveProductList();
+        } else {
+          // Filter by a specific category
+          this.retrieveproductsListByCategory(selectedCategory);
+        }
+        console.log("Filter list by:", selectedCategory);
+      }
+    });
+  }
+
+  public goToBarcodeScanner = (): void => {
     console.log("Navigating to Barcode Scanner...");
     this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
       transition: {

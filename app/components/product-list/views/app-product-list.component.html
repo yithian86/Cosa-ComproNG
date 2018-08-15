@@ -1,48 +1,40 @@
 <ActionBar title="Products" class="action-bar">
     <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" (tap)="goToGroceryListDetails()"></NavigationButton>
     <ActionItem
-        (tap)="openAddProductDialog()"
+        (tap)="goToBarcodeScanner()"
         ios.systemIcon="4"
         android.systemIcon="ic_menu_add"
         ios.position="right"
     ></ActionItem>
 </ActionBar>
 
-<!-- <AbsoluteLayout width="100%" height="100%"> -->
-    <StackLayout style="width: 100%; height: 100%; z-index: 100;">
-        <!-- NORMAL VIEW -->
-        <StackLayout visibility="{{ isFilterByOpened ? 'collapsed' : 'visible' }}">
-            <Button [text]="getFilterByText()" (tap)="isFilterByOpened = true" class="Button__FilterBy"></Button>
-            <ListView row="1" [items]="getproductsListByCategory()" class="list-group" style="separator-color: transparent">
-                <ng-template let-productList="item" let-i="index" style="background-color: white">
+<StackLayout style="width: 100%; height: 100%; z-index: 100;">
+    <!-- NORMAL VIEW -->
+    <StackLayout>
+        <Button [text]="getFilterByText()" (tap)="showCategoryDialog()" class="Button__FilterBy"></Button>
+        <ListView row="1" [items]="getproductsListByCategory()" class="list-group" style="separator-color: transparent">
+            <ng-template let-productList="item" let-i="index" style="background-color: white">
 
-                    <!-- PRODUCT LIST -->
-                    <StackLayout class="list-group-item" style="height: 100%">
-                        <Label [text]="getCategory(i)" class="Label__Category"></Label>
+                <!-- PRODUCT LIST -->
+                <StackLayout class="list-group-item" style="height: 100%">
+                    <Label [text]="getCategory(i)" class="Label__Category"></Label>
 
-                        <ListView [items]="getProductList(i)" (itemTap)="onTapProduct($event, i)" class="list-group" [ngStyle]="{'height': getProductListHeight(i)}">
-                            <ng-template let-product="item" let-i="index">
-                                <StackLayout [ngClass]="{ 'list-group-item': true, 'is-last': product.isLast }">
+                    <ListView [items]="getProductList(i)" (itemTap)="onTapProduct($event, i)" class="list-group" [ngStyle]="{'height': getProductListHeight(i)}">
+                        <ng-template let-product="item" let-i="index">
+                            <StackLayout [ngClass]="{ 'list-group-item': true, 'is-last': product.isLast }">
 
-                                    <!-- <StackLayout style="width:70%; padding-left:4"> -->
-                                    <Label [text]="product.productName"></Label>
-                                    <Label [text]="product.brand"></Label>
-                                    <!-- </StackLayout> -->
+                                <!-- <StackLayout style="width:70%; padding-left:4"> -->
+                                <Label [text]="product.productName"></Label>
+                                <Label [text]="product.brand"></Label>
+                                <!-- </StackLayout> -->
 
-                                </StackLayout>
-                            </ng-template>
-                        </ListView>
-                    </StackLayout>
+                            </StackLayout>
+                        </ng-template>
+                    </ListView>
+                </StackLayout>
 
-                </ng-template>
-            </ListView>
-            <Label [text]="'- No products -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isProductsListByCategoryEmpty() ? 'visible' : 'collapsed' }}"></Label>
-        </StackLayout>
+            </ng-template>
+        </ListView>
+        <Label [text]="'- No products -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15" visibility="{{ isProductsListByCategoryEmpty() ? 'visible' : 'collapsed' }}"></Label>
     </StackLayout>
-
-    <!-- CATEGORY PICKER OVERLAY -->
-    <StackLayout style="width: 100%; height: 100%; z-index: 1000;" visibility="{{ isFilterByOpened ? 'visible' : 'collapsed' }}">
-        <ListPicker [items]="categoryList" [selectedIndex]="selectedCategoryIndex" (selectedIndexChange)="onCategorySelected($event)" class="p-15" style="height: 70%"></ListPicker>
-        <Button text="OK" (tap)="onCategorySelected()"></Button>
-    </StackLayout>
-<!-- </AbsoluteLayout> -->
+</StackLayout>
