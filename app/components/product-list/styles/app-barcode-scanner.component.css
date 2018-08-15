@@ -1,0 +1,23 @@
+Button.GoButton {
+    width: 200;
+    height: 200;
+    margin: 10;
+    border-radius: 200;
+    font-weight: bold;
+    font-size: 80
+}
+
+Button.BSForm__Button {
+    margin: 0;
+}
+
+TextField.BSForm__TextField {
+    text-align: left;
+    vertical-align: middle;
+    background-color: white;
+}
+
+TextField.BSForm__TextField--isEditable {
+    text-align: left;
+    vertical-align: middle;
+}

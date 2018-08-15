@@ -2,10 +2,52 @@
     <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" (tap)="goToProductList()"></NavigationButton>
 </ActionBar>
 
+<ScrollView sdkExampleTitle sdkToggleNavButton>
+    <DockLayout>
 
-<StackLayout class="p-20" style="width: 100%; height: 100%; vertical-align: middle">
-    <Label text="Add a product by scanning its barcode! It's fun and practical at the same time!" textWrap="true" class="h3 text-center" style="margin: 10"></Label>
-    <Button text="GO!" (tap)="scanBarcode()" class="btn btn-primary btn-active" style="width: 300; height: 300; margin: 20; border-radius: 300; font-weight: bolder; font-size: 100"></Button>
-    <Label text="RESULT" class="h2 text-center"></Label>
-    <Label [text]="getResultText()" class="h3 text-center"></Label>
-</StackLayout>
+        <!-- BUTTON GO! -->
+        <StackLayout dock="top" class="p-20">
+            <Label text="Add a product by scanning its barcode! It's fun and practical at the same time!" textWrap="true" class="h3 text-center"></Label>
+            <DockLayout>
+                <Button dock="left" text="GO!" (tap)="scanBarcode()" class="btn btn-primary btn-active GoButton"></Button>
+                <StackLayout dock="right" style="vertical-align: middle">
+                    <Label [text]="'Format: ' + format" class="h3 text-center"></Label>
+                    <Label [text]="'Content: ' + code" textWrap="true" class="h3 text-center"></Label>
+                </StackLayout>
+            </DockLayout>
+        </StackLayout>
+
+        <!-- FORM -->
+        <StackLayout dock="bottom" class="form">
+            <StackLayout class="input-field">
+                <Label text="Barcode"></Label>
+                <TextField required [(ngModel)]="product.barCode" [editable]="isEditing" [ngClass]="{ 'BSForm__TextField--isEditable': isEditing, 'BSForm__TextField': !isEditing }"></TextField>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Name"></Label>
+                <TextField required [(ngModel)]="product.productName" [editable]="isEditing" [ngClass]="{ 'BSForm__TextField--isEditable': isEditing, 'BSForm__TextField': !isEditing }"></TextField>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Brand"></Label>
+                <TextField required [(ngModel)]="product.brand" [editable]="isEditing" [ngClass]="{ 'BSForm__TextField--isEditable': isEditing, 'BSForm__TextField': !isEditing }"></TextField>
+            </StackLayout>
+
+            <DockLayout>
+                <StackLayout dock="left" style="width: 70%" class="input-field">
+                    <Label text="Category"></Label>
+                    <TextField required [(ngModel)]="product.category" (tap)="showCategoryDialog()" [editable]="false" [ngClass]="{ 'BSForm__TextField--isEditable': isEditing, 'BSForm__TextField': !isEditing }"></TextField>
+                </StackLayout>
+
+                <StackLayout dock="right" style="width: 30%" class="input-field">
+                    <Label text="Weight volume"></Label>
+                    <TextField required [(ngModel)]="product.weightVolume" [editable]="isEditing" [ngClass]="{ 'BSForm__TextField--isEditable': isEditing, 'BSForm__TextField': !isEditing }"></TextField>
+                </StackLayout>
+            </DockLayout>
+
+            <Button text="Clean" (tap)="resetProduct()" class="btn btn-primary BSForm__Button" visibility="{{ isEditing ? 'visible' : 'collapse' }}"></Button>
+            <Button text="Add product!" (tap)="addProduct()" class="btn btn-primary BSForm__Button" visibility="{{ isEditing ? 'visible' : 'collapse' }}"></Button>
+        </StackLayout>
+    </DockLayout>
+</ScrollView>

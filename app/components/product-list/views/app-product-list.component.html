@@ -42,7 +42,7 @@
 
     <!-- CATEGORY PICKER OVERLAY -->
     <StackLayout style="width: 100%; height: 100%; z-index: 1000;" visibility="{{ isFilterByOpened ? 'visible' : 'collapsed' }}">
-        <ListPicker [items]="categoryList" [selectedIndex]="selectedCategoryIndex" (selectedIndexChange)="onCategorySelected($event)" class="p-15"></ListPicker>
+        <ListPicker [items]="categoryList" [selectedIndex]="selectedCategoryIndex" (selectedIndexChange)="onCategorySelected($event)" class="p-15" style="height: 70%"></ListPicker>
         <Button text="OK" (tap)="onCategorySelected()"></Button>
     </StackLayout>
 <!-- </AbsoluteLayout> -->

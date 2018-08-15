@@ -8,6 +8,7 @@
 export interface IProduct {
   barCode: string,
   brand: string,
+  category: string,
   id: number,
   productName: string,
   weightVolume: string

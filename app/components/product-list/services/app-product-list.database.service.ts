@@ -39,18 +39,19 @@ export class ProductsDBService {
       this.baseDBService.connectToDB().then((res: any) => {
         return res.all(queryString).then((products: Array<IProduct>) => {
           let result: Array<IProduct> = [];
-          
+
           products.forEach((prod: IProduct) => {
             const newProduct: IProduct = {
               id: prod[0],
               weightVolume: prod[1],
               barCode: prod[2],
               productName: prod[3],
-              brand: prod[4]
+              brand: prod[4],
+              category: prod[5]
             }
             result.push(newProduct);
           });
-          
+
           resolve(result);
         }), error => {
           console.log("[DATABASE SERVICE ERROR] getProducts:", error);
@@ -58,5 +59,48 @@ export class ProductsDBService {
         }
       })
     });
+  }
+
+  public getProductByBarcode(barcode: string) {
+    let queryString: string = `SELECT * FROM ${DB_GLOBALS.TABLES.PRODUCTS} WHERE barcode='${barcode}'`;
+
+    return new Promise((resolve, reject) => {
+      this.baseDBService.connectToDB().then((res: any) => {
+        return res.all(queryString).then((result: Array<any>) => {
+          if (result && result.length > 0) {
+            const prod = result[0];
+            const resultProduct: IProduct = {
+              id: prod[0],
+              weightVolume: prod[1],
+              barCode: prod[2],
+              productName: prod[3],
+              brand: prod[4],
+              category: prod[5]
+            }
+            resolve(resultProduct);
+          } else {
+            resolve(undefined);
+          }
+        }), error => {
+          console.log("[DATABASE SERVICE ERROR] getProductByBarcode:", error);
+          reject(error);
+        }
+      })
+    });
+  }
+
+  public addProduct(product: IProduct): any {
+    let queryString: string = `INSERT INTO ${DB_GLOBALS.TABLES.PRODUCTS} ("product_name", "barCode", "brand", "category", "weight_volume")`;
+    queryString += ` VALUES ('${product.productName}', '${product.barCode}', '${product.brand}', '${product.category}', '${product.weightVolume}')`;
+
+    return new Promise((resolve, reject) => {
+      this.baseDBService.connectToDB().then((db: any) => {
+        return db.execSQL(queryString).then(id => {
+          id ? resolve(id) : reject("error");
+        }, error => {
+          reject(error);
+        });
+      })
+    })
   }
 }
