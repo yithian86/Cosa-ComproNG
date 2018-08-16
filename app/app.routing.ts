@@ -4,19 +4,15 @@ import { AppProductListComponent } from "~/components/product-list/components/ap
 import { AppBarcodeScannerComponent } from "~/components/product-list/components/app-barcode-scanner.component";
 
 export const routes = [
-  { path: "", redirectTo: "/home/groceryList/groceryListDetails", pathMatch: "full" },
+  { path: "", redirectTo: "/home/groceryListDetails", pathMatch: "full" },
   {
     path: "home", children: [
-      {
-        path: "groceryList", children: [
-          { path: "groceryListDetails", component: AppGroceryListDetailsComponent }
-        ]
-      },
+      { path: "groceryListDetails", component: AppGroceryListDetailsComponent },
       { path: "myGroceryLists", component: AppMyGroceryListsComponent },
       {
         path: "productList", children: [
           { path: "list", component: AppProductListComponent },
-          { path: "barcodeScanner", component: AppBarcodeScannerComponent }
+          { path: "barcode-scanner", component: AppBarcodeScannerComponent }
         ]
       }
     ]

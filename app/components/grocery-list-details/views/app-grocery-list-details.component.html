@@ -18,36 +18,27 @@
 
 <RadSideDrawer width="100%" height="100%" tkExampleTitle tkToggleNavButton>
 
-    <!-- DRAWER CONTENT -->
-    <StackLayout tkDrawerContent class="Drawer__SideStackLayout">
-        <!-- DRAWER - TITLE -->
-        <!-- <StackLayout class="Drawer__TitleWrapper">
-            <Label text="Choose a list" class="Drawer__Title"></Label>
-        </StackLayout> -->
-
-        <!-- DRAWER - ITEMS -->
-        <!-- <StackLayout width="100%" height="85%" class="Drawer__SideStackLayout">
-            <ListView [items]="getMyListsNames()" class="list-group">
-                <ng-template let-list="item">
-                    <FlexboxLayout class="list-group-item">
-                        <Label [text]="list" android:class="label-item" class="Drawer__LabelItem" (tap)="onListItemTap(list)"></Label>
-                    </FlexboxLayout>
-                </ng-template>
-            </ListView>
-        </StackLayout> -->
+   <!-- DRAWER CONTENT -->
+   <StackLayout tkDrawerContent class="Drawer__SideStackLayout">
+        <StackLayout style="height: 92%">
+            <Label text="MyLists" (tap)="navigateTo('/home/myGroceryLists')" android:class="label-item" class="Drawer__LabelItem"></Label>
+            <Label text="Products" (tap)="navigateTo('/home/productList/list')" android:class="label-item" class="Drawer__LabelItem"></Label>
+            <Label text="Barcode Scanner" (tap)="navigateTo('/home/productList/barcode-scanner')" android:class="label-item" class="Drawer__LabelItem"></Label>
+            <Label text="Sellers" (tap)="navigateTo('')" android:class="label-item" class="Drawer__LabelItem"></Label>
+        </StackLayout>
 
         <!-- DRAWER - CLOSE BUTTON -->
-        <Label text="Close Drawer" class="Drawer__CloseButton" (tap)="closeDrawer()"></Label>
+        <Label text="Close Drawer" (tap)="closeDrawer()" class="Drawer__CloseButton"></Label>
     </StackLayout>
     <!-- END DRAWER CONTENT -->
 
 
     <!-- MAIN CONTENT -->
     <StackLayout tkMainContent>
-        <!-- DRAWER - OPEN BUTTON -->
+        <!-- MAIN CONTENT - OPEN DRAWER BUTTON -->
         <Button [text]="getCurrentListName()" (tap)="showMyListsDialog()" class="Drawer__OpenButton"></Button>
 
-        <!-- GROCERY LIST -->
+        <!-- MAIN CONTENT - GROCERY LIST -->
         <StackLayout>
 
             <ListView row="1" [items]="groceryList" class="list-group">
@@ -81,7 +72,7 @@
 
             <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15 Label__NoItems" visibility="{{ isGroceryListEmpty() ? 'visible' : 'collapsed' }}"></Label>
 
-            <Button row="3" text="Add" class="AddButton" (tap)="goToGroceryListForm()"></Button>
+            <Button row="3" text="Add" class="AddButton" (tap)="navigateTo('/home/productList/list')"></Button>
 
         </StackLayout>
 

@@ -142,9 +142,9 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
     this.drawer.closeDrawer();
   }
 
-  public goToGroceryListForm = (): void => {
-    console.log("Navigating to Product List...");
-    this.routerExtensions.navigate(["/home/productList/list"], {
+  public navigateTo = (path: string): void => {
+    console.log("Navigating to", path);
+    this.routerExtensions.navigate([path], {
       transition: {
         name: "slideLeft",
         duration: 300

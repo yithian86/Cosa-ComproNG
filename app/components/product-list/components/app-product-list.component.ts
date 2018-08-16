@@ -144,7 +144,7 @@ export class AppProductListComponent implements OnInit {
 
   public goToBarcodeScanner = (): void => {
     console.log("Navigating to Barcode Scanner...");
-    this.routerExtensions.navigate(["/home/productList/barcodeScanner"], {
+    this.routerExtensions.navigate(["/home/productList/barcode-scanner"], {
       transition: {
         name: "slideLeft",
         duration: 300
@@ -154,7 +154,7 @@ export class AppProductListComponent implements OnInit {
 
   public goToGroceryListDetails = () => {
     console.log("Navigating to Grocery List Details...");
-    this.routerExtensions.navigate(["/home/groceryList/groceryListDetails"], {
+    this.routerExtensions.navigate(["/home/groceryListDetails"], {
       transition: {
         name: "slideRight",
         duration: 300
