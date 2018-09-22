@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import * as Toast from 'nativescript-toast';
 import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
@@ -7,7 +8,17 @@ import { Page } from "tns-core-modules/ui/page/page";
 })
 export class AppComponent {
 
-  constructor(private page: Page) {
+  constructor() {
     // page.actionBarHidden = true;
+  }
+
+  public displayMessage = (message: string, type?: string) => {
+    if (type === "error") {
+      console.error(message);
+    } else {
+      console.log(message);
+    }
+
+    Toast.makeText(message).show();
   }
 }

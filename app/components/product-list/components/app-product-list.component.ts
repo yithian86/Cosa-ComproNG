@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
 import { ActivatedRoute } from '@angular/router';
 import { action } from "ui/dialogs";
+import * as Toast from 'nativescript-toast';
 
+import { AppComponent } from "~/app.component";
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
 import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
@@ -14,7 +16,7 @@ import { ICategoryProducts, IProduct } from "~/components/typings/product";
   styleUrls: ["components/product-list/styles/app-product-list.component.css"],
   providers: [CategoriesDBService, ProductsDBService, GroceryListDetailsDBService]
 })
-export class AppProductListComponent implements OnInit {
+export class AppProductListComponent extends AppComponent implements OnInit {
   public readOnlyParamSubscription: any;
   public categoryList: Array<string>;
   public productsListByCategory: Array<ICategoryProducts>;
@@ -29,6 +31,8 @@ export class AppProductListComponent implements OnInit {
     private productsDBService: ProductsDBService,
     private groceryListDetailsDBService: GroceryListDetailsDBService
   ) {
+    super();
+
     this.readOnlyParamSubscription = this.activatedRoute.params.subscribe(params => {
       this.readOnlyMode = params['mode'];
       this.activeListId = params['listId'];
@@ -139,10 +143,13 @@ export class AppProductListComponent implements OnInit {
         .then((items: Array<any>) => {
           if (!items || items.length === 0) {
             this.groceryListDetailsDBService.insertIntoGroceryListDetails(this.activeListId, product.id, 1)
-              .then(() => this.goToGroceryListDetails())
+              .then(() => {
+                this.displayMessage(`${product.productName} added to your grocery list!`);
+                this.goToGroceryListDetails()
+              })
               .catch(error => console.error(error));
           } else {
-            console.error("Product already present in the current grocery list!");
+            this.displayMessage(`${product.productName} already present in your grocery list!`, "error");
           }
         })
         .catch(error => console.error(error));

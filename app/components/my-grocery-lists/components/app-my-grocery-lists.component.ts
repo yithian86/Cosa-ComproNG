@@ -11,13 +11,15 @@ import { IList } from "~/components/typings/list";
   styleUrls: ["components/my-grocery-lists/styles/app-my-grocery-lists.component.css"],
   providers: [MyGroceryListsDBService]
 })
-export class AppMyGroceryListsComponent implements OnInit {
+export class AppMyGroceryListsComponent extends AppComponent implements OnInit {
   public myLists: Array<IList>;
 
   constructor(
     private routerExtensions: RouterExtensions,
     private myGroceryListsDBService: MyGroceryListsDBService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.retrieveMyLists();

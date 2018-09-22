@@ -13,7 +13,7 @@ import { IProduct } from "~/components/typings/product";
   styleUrls: ["components/product-list/styles/app-barcode-scanner.component.css"],
   providers: [BarcodeScanner, ProductsDBService, CategoriesDBService]
 })
-export class AppBarcodeScannerComponent implements OnInit {
+export class AppBarcodeScannerComponent extends AppComponent implements OnInit {
   public product: IProduct;
   public categoryList: Array<string>
   public isEditing: boolean;
@@ -26,6 +26,8 @@ export class AppBarcodeScannerComponent implements OnInit {
     private productsDBService: ProductsDBService,
     private categoriesDBService: CategoriesDBService
   ) {
+    super();
+
     this.format = " - ";
     this.code = " - ";
     this.isEditing = true;

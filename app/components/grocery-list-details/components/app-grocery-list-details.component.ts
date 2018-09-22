@@ -16,7 +16,7 @@ import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/
   styleUrls: ["components/grocery-list-details/styles/app-grocery-list-details.component.css"],
   providers: [GroceryListDetailsDBService, MyGroceryListsDBService]
 })
-export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
+export class AppGroceryListDetailsComponent extends AppComponent implements AfterViewInit, OnInit {
   public title: string;
   public isEditing: boolean;
   public myLists: Array<any>;
@@ -34,6 +34,8 @@ export class AppGroceryListDetailsComponent implements AfterViewInit, OnInit {
     private routerExtensions: RouterExtensions,
     public page: Page
   ) {
+    super();
+
     // Init variables
     this.title = "My grocery list";
     this.isEditing = false;
