@@ -22,7 +22,7 @@
    <StackLayout tkDrawerContent class="Drawer__SideStackLayout">
         <StackLayout style="height: 92%">
             <Label text="MyLists" (tap)="navigateTo('/home/myGroceryLists')" android:class="label-item" class="Drawer__LabelItem"></Label>
-            <Label text="Products" (tap)="navigateTo('/home/productList/list')" android:class="label-item" class="Drawer__LabelItem"></Label>
+            <Label text="Products" (tap)="navigateTo('/home/productList/list', 'readOnly')" android:class="label-item" class="Drawer__LabelItem"></Label>
             <Label text="Barcode Scanner" (tap)="navigateTo('/home/productList/barcode-scanner')" android:class="label-item" class="Drawer__LabelItem"></Label>
             <Label text="Sellers" (tap)="navigateTo('')" android:class="label-item" class="Drawer__LabelItem"></Label>
         </StackLayout>
@@ -72,7 +72,7 @@
 
             <Label row="2" [text]="'- No items -'" style="text-align: center" class="h3 p-l-15 p-r-15 p-t-15 Label__NoItems" visibility="{{ isGroceryListEmpty() ? 'visible' : 'collapsed' }}"></Label>
 
-            <Button row="3" text="Add" class="AddButton" (tap)="navigateTo('/home/productList/list')"></Button>
+            <Button row="3" text="Add" class="AddButton" (tap)="navigateTo('/home/productList/list', 'add')"></Button>
 
         </StackLayout>
 

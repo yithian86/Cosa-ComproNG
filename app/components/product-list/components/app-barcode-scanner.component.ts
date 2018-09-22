@@ -118,7 +118,7 @@ export class AppBarcodeScannerComponent implements OnInit {
 
   public goToProductList = () => {
     console.log("Navigating to Product List...");
-    this.routerExtensions.navigate(["/home/productList/list"], {
+    this.routerExtensions.navigate(["/home/productList/list", ''], {
       transition: {
         name: "slideRight",
         duration: 300

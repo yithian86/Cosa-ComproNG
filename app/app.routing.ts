@@ -11,7 +11,7 @@ export const routes = [
       { path: "myGroceryLists", component: AppMyGroceryListsComponent },
       {
         path: "productList", children: [
-          { path: "list", component: AppProductListComponent },
+          { path: "list/:mode/:listId", component: AppProductListComponent },
           { path: "barcode-scanner", component: AppBarcodeScannerComponent }
         ]
       }

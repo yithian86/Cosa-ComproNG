@@ -1,27 +1,38 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
+import { ActivatedRoute } from '@angular/router';
 import { action } from "ui/dialogs";
 
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
+import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
 import { ICategoryProducts, IProduct } from "~/components/typings/product";
 
 @Component({
   selector: "app-product-list",
   templateUrl: "components/product-list/views/app-product-list.component.html",
   styleUrls: ["components/product-list/styles/app-product-list.component.css"],
-  providers: [CategoriesDBService, ProductsDBService]
+  providers: [CategoriesDBService, ProductsDBService, GroceryListDetailsDBService]
 })
 export class AppProductListComponent implements OnInit {
+  public readOnlyParamSubscription: any;
   public categoryList: Array<string>;
   public productsListByCategory: Array<ICategoryProducts>;
   public selectedCategory: string;
+  private readOnlyMode: string;
+  private activeListId: number;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private routerExtensions: RouterExtensions,
     private categoriesDBService: CategoriesDBService,
-    private productsDBService: ProductsDBService
+    private productsDBService: ProductsDBService,
+    private groceryListDetailsDBService: GroceryListDetailsDBService
   ) {
+    this.readOnlyParamSubscription = this.activatedRoute.params.subscribe(params => {
+      this.readOnlyMode = params['mode'];
+      this.activeListId = params['listId'];
+    });
     this.selectedCategory = "All";
     this.categoryList = [];
     this.productsListByCategory = [];
@@ -111,12 +122,31 @@ export class AppProductListComponent implements OnInit {
 
 
   ///////////////////////////////////////// HANDLERS/ACTIONS /////////////////////////////////////////////
-  public onTapProduct = (event: any, categoryIndex: number): void => {
-    const productIndex: number = event.index;
-    const product: IProduct = this.getProductList(categoryIndex)[productIndex];
-    const categoryName: string = this.getCategory(categoryIndex);
+  ngOnDestroy() {
+    if (this.readOnlyParamSubscription) {
+      this.readOnlyParamSubscription.unsubscribe();
+    };
+  };
 
-    console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);
+  public onTapProduct = (event: any, categoryIndex: number): void => {
+    if (this.readOnlyMode !== "readOnly") {
+      const productIndex: number = event.index;
+      const product: IProduct = this.getProductList(categoryIndex)[productIndex];
+      const categoryName: string = this.getCategory(categoryIndex);
+      console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);
+
+      this.groceryListDetailsDBService.getListItem(this.activeListId, product.id)
+        .then((items: Array<any>) => {
+          if (!items || items.length === 0) {
+            this.groceryListDetailsDBService.insertIntoGroceryListDetails(this.activeListId, product.id, 1)
+              .then(() => this.goToGroceryListDetails())
+              .catch(error => console.error(error));
+          } else {
+            console.error("Product already present in the current grocery list!");
+          }
+        })
+        .catch(error => console.error(error));
+    }
   }
 
   public showCategoryDialog = () => {
