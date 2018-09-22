@@ -1,11 +1,8 @@
-import { Component, AfterViewInit, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { Page } from "tns-core-modules/ui/page/page";
+import { Component, AfterViewInit, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
 
-// import { RadSideDrawerComponent, SideDrawerType } from "nativescript-ui-sidedrawer/angular/side-drawer-directives";
-// import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
-
 import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/app-my-grocery-lists.database.service";
+import { IList } from "~/components/typings/list";
 
 
 @Component({
@@ -14,34 +11,31 @@ import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/
   styleUrls: ["components/my-grocery-lists/styles/app-my-grocery-lists.component.css"],
   providers: [MyGroceryListsDBService]
 })
-export class AppMyGroceryListsComponent implements AfterViewInit, OnInit {
+export class AppMyGroceryListsComponent implements OnInit {
+  public myLists: Array<IList>;
 
   constructor(
-    private _changeDetectionRef: ChangeDetectorRef,
     private routerExtensions: RouterExtensions,
-    public page: Page
+    private myGroceryListsDBService: MyGroceryListsDBService
   ) { }
 
   ngOnInit() {
+    this.retrieveMyLists();
   }
 
-  ngAfterViewInit() {
-    this._changeDetectionRef.detectChanges();
+  public getDate = (date: number) => date > 0 ? new Date(date) : " - "
+
+  public retrieveMyLists = (): void => {
+    this.myGroceryListsDBService.getMyLists()
+      .then((myListsRes: Array<IList>) => {
+        this.myLists = myListsRes ? myListsRes : [];
+      })
+      .catch(error => console.error(error));
   }
 
-  public addItem = (): void => {
-    // this.groceryList.push({
-    //   barCode: "0123456",
-    //   productName: "Bombolone alla crema"
-    // });
-
-    console.log("Added Item");
-    alert("Added Item");
-  }
-  
   public goToGroceryListDetails = () => {
     console.log("Navigating to MyGroceryLists...");
-    this.routerExtensions.navigate(["/home/groceryListDetails"], {
+    this.routerExtensions.navigate([""], {
       transition: {
         name: "slideRight",
         duration: 300
