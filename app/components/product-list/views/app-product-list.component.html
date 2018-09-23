@@ -11,7 +11,7 @@
 <StackLayout class="ProductList__Layout">
     <!-- NORMAL VIEW -->
     <StackLayout>
-        <Button [text]="getFilterByText()" (tap)="showCategoryDialog()" class="Button__FilterBy"></Button>
+        <Button [text]="getFilterByText()" (tap)="showCategoryDialog()" class="FilterByButton"></Button>
 
         <ListView row="1" [items]="getproductsListByCategory()" class="list-group" style="separator-color: transparent">
             <ng-template let-productList="item" let-i="index" style="background-color: white">
@@ -29,7 +29,7 @@
                                     <Label [text]="product.brand"></Label>
                                 </StackLayout>
 
-                                <Button text="€" dock="right" (tap)="showPrices(product)" class="Button__ShowPrices"></Button>
+                                <Button text="€" dock="right" (tap)="showPrices(product)" class="ShowPricesButton"></Button>
 
                             </DockLayout>
                         </ng-template>

@@ -158,6 +158,8 @@ export class AppProductListComponent extends AppComponent implements OnInit {
   public showPrices = (product: IProduct): void => {
     const productId: number = product.id;
     // console.log("SHOW PRICES", product);
+
+    // Get prices for the product with id = productId
     this.productsDBService.getProductPrices(productId)
       .then((productPrices: Array<any>) => {
         let stringifiedPrices: Array<string> = [];
@@ -173,6 +175,7 @@ export class AppProductListComponent extends AppComponent implements OnInit {
           stringifiedPrices = ["No prices for this product."];
         }
 
+        // Open dialog window containing all the prices for the clicked product
         let options = {
           title: "Prices:",
           message: "",

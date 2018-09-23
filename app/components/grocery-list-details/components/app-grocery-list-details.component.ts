@@ -8,6 +8,7 @@ import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
 import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
 import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/app-my-grocery-lists.database.service";
+import { AppComponent } from "~/app.component";
 
 
 @Component({
@@ -91,13 +92,13 @@ export class AppGroceryListDetailsComponent extends AppComponent implements Afte
     const glistId: number = this.groceryList[productIndex].id;
     const productId: number = this.groceryList[productIndex].productId;
     const quantity: number = this.groceryList[productIndex].quantity;
-    console.log(`Updating element #${productIndex}: ${listId} ${productId} ${quantity}`);
+    this.displayMessage(`Updating element #${productIndex}: ${listId} ${productId} ${quantity}`);
     this.groceryListDetailsDBService.updateGroceryListDetails(glistId, listId, productId, quantity);
   }
 
   public deleteGroceryListItem = (productIndex: number): void => {
     const glistId: number = this.groceryList[productIndex].id;
-    console.log(`Deleting element #${productIndex}`);
+    this.displayMessage(`Deleting element #${productIndex}`);
     // Update DB
     this.groceryListDetailsDBService.deleteGroceryListItem(glistId);
 
@@ -146,7 +147,7 @@ export class AppGroceryListDetailsComponent extends AppComponent implements Afte
   }
 
   public navigateTo = (path: string, param?: string): void => {
-    console.log("Navigating to", path, param);
+    console.log(`Navigating to ${path}   ${param}`);
     const activeListId: number = this.myLists[this.activeListIndex].listId;
     const navigateParams: Array<any> = param ? [path, param, activeListId] : [path];
     this.routerExtensions.navigate(navigateParams, {

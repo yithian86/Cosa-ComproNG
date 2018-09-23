@@ -14,9 +14,13 @@ export class AppComponent {
 
   public displayMessage = (message: string, type?: string) => {
     if (type === "error") {
+      console.error("##############################################################");
       console.error(message);
+      console.error("##############################################################");
     } else {
+      console.log("##############################################################");
       console.log(message);
+      console.log("##############################################################");
     }
 
     Toast.makeText(message).show();

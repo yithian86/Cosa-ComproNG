@@ -56,7 +56,7 @@ export class GroceryListDetailsDBService {
         return res.all(queryString).then(rows => {
           let result: Array<any> = [];
           rows.forEach(row => {
-            console.log(JSON.stringify(row));
+            // console.log(JSON.stringify(row));
             result.push({
               id: row[1],
               productId: row[3],
