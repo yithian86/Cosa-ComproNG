@@ -131,9 +131,8 @@ export class AppProductListComponent extends AppComponent implements OnInit {
     };
   };
 
-  public onTapProduct = (event: any, categoryIndex: number): void => {
+  public onTapProduct = (categoryIndex: number, productIndex: number): void => {
     if (this.readOnlyMode !== "readOnly") {
-      const productIndex: number = event.index;
       const product: IProduct = this.getProductList(categoryIndex)[productIndex];
       const categoryName: string = this.getCategory(categoryIndex);
       console.log(`TAPPED PRODUCT: ${product.productName}, CATEGORY: ${categoryName}`);

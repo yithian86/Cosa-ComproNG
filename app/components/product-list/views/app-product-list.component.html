@@ -20,18 +20,23 @@
                 <StackLayout class="list-group-item" style="height: 100%">
                     <Label [text]="getCategory(i)" class="Label__Category"></Label>
 
-                    <ListView [items]="getProductList(i)" (itemTap)="onTapProduct($event, i)" class="list-group" [ngStyle]="{'height': getProductListHeight(i)}">
-                        <ng-template let-product="item" let-i="index">
-                            <DockLayout width="100%" height="100%" [ngClass]="{ 'list-group-item': true, 'is-last': product.isLast }">
+                    <ListView [items]="getProductList(i)" class="list-group" [ngStyle]="{'height': getProductListHeight(i)}">
+                        <ng-template let-product="item" let-j="index">
+                            <StackLayout [ngClass]="{ 'list-group-item': true, 'is-last': product.isLast }">
                     
-                                <StackLayout dock="left" style="width:70%; padding-left:4">
-                                    <Label [text]="product.productName"></Label>
-                                    <Label [text]="product.brand"></Label>
-                                </StackLayout>
+                                <DockLayout width="100%" height="100%">
+                                    <StackLayout dock="left" style="width:70%; padding-left:4">
+                                        <Label [text]="product.productName"></Label>
+                                        <Label [text]="product.brand"></Label>
+                                    </StackLayout>
+                                    <DockLayout dock="right" style="width:25%">
+                                        <Button text="€" (tap)="showPrices(product)" dock="left" class="ShowPricesButton"></Button>
+                                        <Button text="+" (tap)="onTapProduct(i, j)" dock="right" class="AddButton"></Button>
+                                    </DockLayout>
+                                </DockLayout>
 
-                                <Button text="€" dock="right" (tap)="showPrices(product)" class="ShowPricesButton"></Button>
 
-                            </DockLayout>
+                            </StackLayout>
                         </ng-template>
                     </ListView>
                 </StackLayout>

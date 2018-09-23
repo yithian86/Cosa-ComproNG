@@ -20,6 +20,13 @@ Button.ShowPricesButton {
     background-color: lightgreen
 }
 
+Button.AddButton {
+    width: 40;
+    height: 40;
+    border-radius: 40;
+    background-color: lightskyblue
+}
+
 Label.Label__Category {
     padding: 8;
     background-color: #CCCCCC;
