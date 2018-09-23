@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import * as Toast from 'nativescript-toast';
-import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
   selector: "app-root",
