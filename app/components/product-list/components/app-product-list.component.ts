@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
 import { ActivatedRoute } from '@angular/router';
 import { action } from "ui/dialogs";
-import * as Toast from 'nativescript-toast';
 
 import { AppComponent } from "~/app.component";
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
@@ -154,6 +153,36 @@ export class AppProductListComponent extends AppComponent implements OnInit {
         })
         .catch(error => console.error(error));
     }
+  }
+
+  public showPrices = (product: IProduct): void => {
+    const productId: number = product.id;
+    // console.log("SHOW PRICES", product);
+    this.productsDBService.getProductPrices(productId)
+      .then((productPrices: Array<any>) => {
+        let stringifiedPrices: Array<string> = [];
+        if (productPrices.length > 0) {
+          stringifiedPrices = productPrices.map((price: any) => {
+            return `
+            Normal: ${price.normalPrice.toFixed(2)}€
+            Special offer: ${price.specialPrice.toFixed(2)}€ on ${price.specialDate}
+            Seller: ${price.sellerId}
+            `;
+          });
+        } else {
+          stringifiedPrices = ["No prices for this product."];
+        }
+
+        let options = {
+          title: "Prices:",
+          message: "",
+          cancelButtonText: "Back",
+          actions: stringifiedPrices
+        };
+
+        action(options);
+      })
+      .catch(error => console.error(error));
   }
 
   public showCategoryDialog = () => {

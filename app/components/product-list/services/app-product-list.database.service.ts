@@ -89,6 +89,34 @@ export class ProductsDBService {
     });
   }
 
+  public getProductPrices(productId: number) {
+    let queryString: string = `SELECT * FROM ${DB_GLOBALS.TABLES.PRODUCTPRICES} WHERE product_id_fk='${productId}'`;
+
+    return new Promise((resolve, reject) => {
+      this.baseDBService.connectToDB().then((res: any) => {
+        return res.all(queryString).then((prices: Array<any>) => {
+          let result: Array<IProduct> = [];
+
+          prices.forEach((prod: IProduct) => {
+            const newPrice: any = {
+              id: prod[0],
+              normalPrice: prod[1],
+              specialPrice: prod[2],
+              specialDate: prod[3],
+              productId: prod[4],
+              sellerId: prod[5]
+            }
+            result.push(newPrice);
+          });
+          resolve(result);
+        }), error => {
+          console.log("[DATABASE SERVICE ERROR] getProductByBarcode:", error);
+          reject(error);
+        }
+      })
+    });
+  }
+
   public addProduct(product: IProduct): any {
     let queryString: string = `INSERT INTO ${DB_GLOBALS.TABLES.PRODUCTS} ("product_name", "barCode", "brand", "category", "weight_volume")`;
     queryString += ` VALUES ('${product.productName}', '${product.barCode}', '${product.brand}', '${product.category}', '${product.weightVolume}')`;

@@ -1,19 +1,32 @@
+.ProductList__Layout {
+    width: 100%;
+    height: 100%;
+    z-index: 100
+}
+
 .Button__FilterBy {
     padding: 18;
     background-color: lightskyblue;
     color: white;
     font-family: FontAwesome;
     font-size: 18;
-    text-align: center;
+    text-align: center
+}
+
+.Button__ShowPrices {
+    width: 40;
+    height: 40;
+    border-radius: 40;
+    background-color: lightgreen
 }
 
 Label.Label__Category {
     padding: 8;
     background-color: #CCCCCC;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: uppercase
 }
 
 ListView > li {
-    padding: 0;
+    padding: 0
 }

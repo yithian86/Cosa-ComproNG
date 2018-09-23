@@ -4,6 +4,7 @@ export const DB_GLOBALS: any = {
     GROCERYLIST: "grocerylist",
     MYLISTS: "list",
     PRODUCTS: "products",
+    PRODUCTPRICES: "product_price",
     CATEGORIES: "categories"
   }
 };
