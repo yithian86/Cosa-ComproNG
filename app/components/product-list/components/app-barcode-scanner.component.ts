@@ -3,6 +3,7 @@ import { RouterExtensions } from "nativescript-angular/router/router-extensions"
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { action } from "ui/dialogs";
 
+import { AppComponent } from "~/app.component";
 import { ProductsDBService } from "~/components/product-list/services/app-product-list.database.service";
 import { CategoriesDBService } from "~/components/categories/services/app-categories.database.service";
 import { IProduct } from "~/components/typings/product";
@@ -120,7 +121,7 @@ export class AppBarcodeScannerComponent extends AppComponent implements OnInit {
 
   public goToProductList = () => {
     console.log("Navigating to Product List...");
-    this.routerExtensions.navigate(["/home/productList/list", ''], {
+    this.routerExtensions.navigate(["/home/productList/list", '', ''], {
       transition: {
         name: "slideRight",
         duration: 300

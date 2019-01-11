@@ -9,6 +9,8 @@ import { ProductsDBService } from "~/components/product-list/services/app-produc
 import { GroceryListDetailsDBService } from "~/components/grocery-list-details/services/app-grocery-list.database.service";
 import { ICategoryProducts, IProduct } from "~/components/typings/product";
 
+var applicationSettings = require("application-settings");
+
 @Component({
   selector: "app-product-list",
   templateUrl: "components/product-list/views/app-product-list.component.html",
@@ -34,7 +36,7 @@ export class AppProductListComponent extends AppComponent implements OnInit {
 
     this.readOnlyParamSubscription = this.activatedRoute.params.subscribe(params => {
       this.readOnlyMode = params['mode'];
-      this.activeListId = params['listId'];
+      this.activeListId = params['listId'] ? params['listId'] : applicationSettings.getNumber("activeListId");
     });
     this.selectedCategory = "All";
     this.categoryList = [];

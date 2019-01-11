@@ -1,6 +1,7 @@
-import { Component, AfterViewInit, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router/router-extensions";
 
+import { AppComponent } from "~/app.component";
 import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/app-my-grocery-lists.database.service";
 import { IList } from "~/components/typings/list";
 

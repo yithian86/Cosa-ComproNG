@@ -10,6 +10,8 @@ import { GroceryListDetailsDBService } from "~/components/grocery-list-details/s
 import { MyGroceryListsDBService } from "~/components/my-grocery-lists/services/app-my-grocery-lists.database.service";
 import { AppComponent } from "~/app.component";
 
+var applicationSettings = require("application-settings");
+
 
 @Component({
   selector: "app-grocery-list-details",
@@ -36,17 +38,15 @@ export class AppGroceryListDetailsComponent extends AppComponent implements Afte
     public page: Page
   ) {
     super();
-
-    // Init variables
-    this.title = "My grocery list";
-    this.isEditing = false;
-    this.activeListIndex = 0;
-
-    // Load grocery lists and selected grocery list details
-    this.retrieveMyLists();
   }
 
   ngOnInit() {
+    // Init variables
+    this.title = "My grocery list";
+    this.isEditing = false;
+
+    // Load grocery lists and selected grocery list details
+    this.retrieveMyLists();
   }
 
   ngAfterViewInit() {
@@ -72,11 +72,18 @@ export class AppGroceryListDetailsComponent extends AppComponent implements Afte
 
   ///////////////////////////////////////////// SERVICES /////////////////////////////////////////////////
   public retrieveMyLists = (): void => {
-    this.myGroceryListsDBService.getMyLists().then((myLists: any) => {
-      this.myLists = !!myLists ? myLists : [];
+    this.myGroceryListsDBService.getMyLists()
+      .then((myLists: any) => {
+        this.myLists = !!myLists ? myLists : [];
 
-      this.retrieveGroceryListDetails();
-    });
+        // Get stored active list id
+        const activeListId: number = applicationSettings.getNumber("activeListId");
+        this.activeListIndex = activeListId ? this.myLists.map(list => list.listId).indexOf(activeListId): 0;
+        applicationSettings.setNumber("activeListId", this.myLists[this.activeListIndex].listId);
+        console.log("Updating active list index:", applicationSettings.getNumber("activeListId"));
+
+        this.retrieveGroceryListDetails();
+      });
   }
 
   public retrieveGroceryListDetails = (): void => {
@@ -132,6 +139,10 @@ export class AppGroceryListDetailsComponent extends AppComponent implements Afte
       if (selectedListName && selectedListName !== "Cancel" && myListsNames && myListsNames.length > 0) {
         // Update current list index
         this.activeListIndex = myListsNames.indexOf(selectedListName);
+
+        // Update stored active list id
+        applicationSettings.setNumber("activeListId", this.myLists[this.activeListIndex].listId);
+        console.log(applicationSettings.getNumber("activeListId"));
 
         this.retrieveGroceryListDetails();
       }

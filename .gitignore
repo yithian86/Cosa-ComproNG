@@ -43,3 +43,7 @@ testem.log
 .DS_Store
 Thumbs.
 quando_il_db_rompe_il_cazzo.txt
+
+# Compiled Files
+*.service.js
+*.component.js
